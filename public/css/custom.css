@@ -1,0 +1,48 @@
+body{font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}
+.sidebar-nav ul li ul{padding-left: 18px;}
+
+/*custom switch*/
+table .custom-switch label {
+    margin: -8px auto;
+}
+.custom-control.custom-switch{margin:0 20px;}
+ .custom-control-label::before {
+    left: -3.25rem;
+    height: 2rem;
+    width: 3.75rem;
+    pointer-events: all;
+    border-radius: .5rem;
+}
+.custom-control-label{padding: 5px 15px !important;}
+
+.head-label{margin: 7px 30px 25px !important}
+
+.custom-switch .custom-control-input:checked~.custom-control-label::after {
+    background-color: #fff;
+    transform: translateX(1.75rem);
+}
+.custom-switch .custom-control-label::after {
+    top: calc(.15625rem + 2px);
+    left: calc(-3.25rem + 2px);
+    width: calc(2rem - 4px) ;
+    height: calc(2rem - 5px);
+    background-color: #adb5bd;
+    border-radius: .5rem;
+    transition: transform .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.custom-control-input:checked~.custom-control-label::before {
+    color: #fff;
+    border-color: #fb9678;
+    background-color: #fb9678;
+}
+
+.custom-switch .custom-control-label::before {
+    left: -3.25rem;
+    height: 2rem;
+    width: 3.75rem;
+    padding: 5px;
+    content: 'ON';
+    pointer-events: all;
+    border-radius: .5rem;
+}
+/*end custom switch*/
