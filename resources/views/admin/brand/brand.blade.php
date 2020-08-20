@@ -28,7 +28,7 @@
                                 <li class="breadcrumb-item"><a href="javascript:void(0)">Brand</a></li>
                                 <li class="breadcrumb-item active">list</li>
                             </ol>
-                            <button data-toggle="modal" data-target="#add" class="btn btn-info d-none d-lg-block m-l-15"><i
+                            <button data-toggle="modal" data-target="#brand" class="btn btn-info d-none d-lg-block m-l-15"><i
                                     class="fa fa-plus-circle"></i> Add New Brand</button>
                         </div>
                     </div>
@@ -86,56 +86,7 @@
         <!-- ============================================================== -->
         <!-- End Page wrapper  -->
         <!-- add Modal -->
-        <div class="modal fade" id="add" role="dialog"  tabindex="-1" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog">
-
-                  <!-- Modal content-->
-                  <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Create Brand</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body form-row">
-                        <div class="card-body">
-                            <form action="{{route('brand.store')}}" enctype="multipart/form-data" method="POST" class="floating-labels">
-                                {{csrf_field()}}
-                                <div class="form-body">
-                                    <!--/row-->
-                                    <div class="row justify-content-md-center">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="name">Brand Name</label>
-                                                <input  name="name" id="name" value="{{old('name')}}" required="" type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                     
-                                    </div>
-                                    
-
-                                    <div class="row justify-content-md-center">
-                                        <div class="col-md-12">
-                                            <div class="head-label">
-                                                <label class="switch-box">Status</label>
-                                                <div  class="status-btn" >
-                                                    <div class="custom-control custom-switch">
-                                                        <input name="status" checked  type="checkbox" class="custom-control-input" {{ (old('status') == 'on') ? 'checked' : '' }} id="status">
-                                                        <label  class="custom-control-label" for="status">Publish/UnPublish</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" name="submit" value="add" class="btn btn-success"> <i class="fa fa-check"></i> Save</button>
-                                                <button type="button" data-dismiss="modal" class="btn btn-inverse">Cancel</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-          </div>
+        @include('admin.stock.modal.brand')
         <!-- update Modal -->
         <div class="modal fade" id="edit" role="dialog"  tabindex="-1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog">

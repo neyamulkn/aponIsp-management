@@ -261,7 +261,7 @@
             </div>
           </div>
         <!-- update Modal -->
-          <div class="modal fade" id="edit" role="dialog"  tabindex="-1" aria-hidden="true" style="display: none;">
+        <div class="modal fade" id="edit" role="dialog"  tabindex="-1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-lg">
                 <form action="{{route('stock.update')}}"  method="post">
                       {{ csrf_field() }}

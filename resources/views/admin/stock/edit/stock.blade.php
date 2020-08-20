@@ -48,6 +48,13 @@
 
     <div class="col-md-4">
         <div class="form-group">
+            <label for="invoice">Invoice No</label>
+            <input  name="invoice" id="invoice" value="{{$data->invoice}}" type="text" class="form-control">
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
             <label for="product_code">Product Code</label>
             <input  name="product_code" id="product_code" value="{{$data->code}}" type="text" class="form-control">
         </div>
@@ -82,28 +89,37 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="form-group">
             <label class="required" for="qty">Quantity</label>
             <input required="" name="qty" id="qty" value="{{$data->quantity}}" type="number" class="form-control">
         </div>
     </div>
 
-    <div class="col-md-4">
-        <div class="form-group">
-            <label for="warranty">Warranty</label>
-            <input  name="warranty" id="warranty" value="{{$data->warranty}}" type="text" class="form-control">
-        </div>
-    </div>
-
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="form-group">
             <label class="required" for="price">Price</label>
             <input required="" name="price" id="price" value="{{$data->price}}" type="number" class="form-control">
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="warranty">Warranty</label>
+            <input  name="warranty" id="warranty" value="{{$data->warranty}}" type="text" class="form-control">
+        </div>
+    </div>
+
+
+
+<!--     <div class="col-md-2">
+        <div class="form-group">
+            <label for="payment">Payment</label>
+            <input name="payment" id="payment" value="{{$data->payment}}" type="number" class="form-control">
+        </div>
+    </div> -->
+
+    <div class="col-md-3">
         <div class="form-group">
             <label class="required" for="stock_date">Stock Date</label>
             <input name="stock_date" id="stock_date" value="{{$data->date}}" required="" type="date" class="form-control">
@@ -119,17 +135,4 @@
     </div>
 </div>
 
-<div class="col-md-12 mb-12">
-
-    <div class="form-group">
-        <label class="switch-box">Status</label>
-        <div  class="status-btn" >
-            <div class="custom-control custom-switch">
-                <input name="status" {{($data->status == 1) ?  'checked' : ''}}   type="checkbox" class="custom-control-input" id="status-edit">
-                <label  class="custom-control-label" for="status-edit">Publish/UnPublish</label>
-            </div>
-        </div>
-    </div>
-
-</div>
 

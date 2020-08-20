@@ -24,7 +24,7 @@ class CreateStockOutsTable extends Migration
             $table->date('date');
             $table->string('notes')->nullable();
             $table->integer('created_by');
-            $table->string('status', 50)->nullable();
+            $table->string('status', 10)->nullable();
             $table->timestamps();
         });
     }

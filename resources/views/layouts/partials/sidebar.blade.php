@@ -15,7 +15,7 @@
                         <li><a href="{{route('subzone.list')}}">Sub Zone</a></li>
                         <li><a href="{{route('box.list')}}">Box</a></li>
                         <li><a href="{{route('cable.list')}}">Cable</a></li>
-                        <li><a href="{{route('cable.list')}}">Payment Type</a></li>
+                        <li><a href="{{route('paymentmethod.list')}}">Payment Type</a></li>
                     </ul>
                 </li>
 
@@ -74,6 +74,17 @@
                     </ul>
                 </li>
 
+                <li> <a class="has-arrow waves-effect waves-dark @if(Request::segment(1)=='stock') active @endif" href="javascript:void(0)" aria-expanded="false"><i class="ti-server"></i><span class="hide-menu">Manage Stock</span></a>
+                    <ul aria-expanded="false" class="collapse @if(Request::segment(1)=='stock') in @endif">
+                        <li><a href="{{route('stock.create')}}">Add New Stock</a></li>
+                        <li><a href="{{route('stockCategory')}}">New Stock</a></li>
+                        <li><a href="{{route('stock.used')}}">Used Stock</a></li>
+                        <li><a href="{{route('brand')}}">Manage Brand</a></li>
+                        <li><a href="{{route('stockShop')}}">Manage Shop</a></li>
+                        <li><a href="{{route('stock')}}">All Stock</a></li>
+                    </ul>
+                </li>
+
                 <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">SMS <span class="badge badge-pill badge-cyan ml-auto">4</span></span></a>
                     <ul aria-expanded="false" class="collapse">
                         <li><a href="app-email.html">Mailbox</a></li>
@@ -114,18 +125,7 @@
                     </ul>
                 </li>
 
-                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-server"></i><span class="hide-menu">Stock</span></a>
-                    <ul aria-expanded="false" class="collapse">
-                        <li><a href="{{route('stockCategory')}}">Stock Category</a></li>
-                        <li><a href="{{route('brand')}}">Brand</a></li>
-                        <li><a href="{{route('stockShop')}}">Shop Name</a></li>
-                        <li><a href="{{route('stock')}}">Add New Stock</a></li>
-                    </ul>
-                </li>
                 
-                
-             
-               
                 <li> <a class="waves-effect waves-dark" href="{{ route('logout') }}" onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();"href="#" aria-expanded="false"><i class="fa fa-power-off text-success"></i><span class="hide-menu">Log Out</span></a></li>
                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

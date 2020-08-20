@@ -19,6 +19,7 @@ class CreateBrandsTable extends Migration
             $table->string('name', 75);
             $table->integer('created_by');
             $table->integer('updated_by')->nullable();
+            $table->softDeletes();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

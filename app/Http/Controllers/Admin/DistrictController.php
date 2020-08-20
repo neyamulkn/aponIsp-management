@@ -6,28 +6,28 @@ use App\Http\Controllers\Controller;
 use App\Models\District;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DistrictController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $get_data = District::orderBy('id', 'desc')->get();
+
+        $get_data = District::orderBy('id', 'desc')->where('vendor_id', Auth::user()->vendor_id)->get();
         return view('admin.district')->with(compact('get_data'));
     }
 
 
     public function store(Request $request)
     {
+
+
         $data = [
             'name' => $request->name,
             'vendor_id' => ($request->vendor_id ? $request->vendor_id : Auth::user()->vendor_id),
             'status' => ($request->status ? 1 : 0)
         ];
+
         $store = District::create($data);
         if($store){
             Toastr::success('District Create Successfully.');
@@ -43,7 +43,6 @@ class DistrictController extends Controller
         $data = District::find($id);
         echo view('admin.edit.edit-form')->with(compact('data'));
     }
-
 
     public function update(Request $request, District $district)
     {

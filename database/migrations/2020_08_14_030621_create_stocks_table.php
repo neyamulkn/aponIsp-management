@@ -20,6 +20,7 @@ class CreateStocksTable extends Migration
             $table->integer('shop_id')->nullable();
             $table->integer('brand_id')->nullable();
             $table->string('name', 75);
+            $table->string('invoice', 25);
             $table->string('code', 25)->nullable();
             $table->string('serial', 25)->nullable();
             $table->string('model', 25)->nullable();
@@ -29,11 +30,15 @@ class CreateStocksTable extends Migration
             $table->string('available', 50)->nullable();
             $table->string('warranty', 50)->nullable();
             $table->integer('price')->default(0);
+            $table->integer('payment')->nullable();
             $table->date('date')->nullable();
             $table->string('notes')->nullable();
             $table->integer('created_by');
             $table->integer('updated_by')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->softDeletes();
+            $table->date('repair_date')->nullable();
+            $table->string('used_status', 15)->nullable();
+            $table->string('status', 15)->default('stock');
             $table->timestamps();
         });
     }

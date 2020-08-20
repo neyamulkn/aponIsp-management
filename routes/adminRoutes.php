@@ -54,6 +54,13 @@ Route::group(['middleware' => ['admin'], 'namespace' => 'Admin'], function(){
 	Route::post('cable/update', 'CableController@update')->name('cable.update');
 	Route::get('cable/delete/{id}', 'CableController@delete')->name('cable.delete');
 
+	Route::get('paymentmethod/create', 'PayMethodController@index')->name('paymentmethod.create');
+	Route::post('paymentmethod/store', 'PayMethodController@store')->name('paymentmethod.store');
+	Route::get('paymentmethod/list', 'PayMethodController@index')->name('paymentmethod.list');
+	Route::get('paymentmethod/edit/{id}', 'PayMethodController@edit')->name('paymentmethod.edit');
+	Route::post('paymentmethod/update', 'PayMethodController@update')->name('paymentmethod.update');
+	Route::get('paymentmethod/delete/{id}', 'PayMethodController@delete')->name('paymentmethod.delete');	
+
 
 
 	// package routes
@@ -107,17 +114,18 @@ Route::group(['middleware' => ['admin'], 'namespace' => 'Admin'], function(){
 
 	// stock routes
 	Route::get('stock/list', 'StockController@index')->name('stock');
+	Route::get('stock/create', 'StockController@create')->name('stock.create');
 	Route::post('stock/store', 'StockController@store')->name('stock.store');
 	Route::get('stock/{id}/edit', 'StockController@edit')->name('stock.edit');
 	Route::post('stock/update', 'StockController@update')->name('stock.update');
 	Route::get('stock/delete/{id}', 'StockController@delete')->name('stock.delete');
-	
+
 	// brand routes
-	Route::get('brand', 'BrandController@index')->name('brand');
-	Route::post('brand/store', 'BrandController@store')->name('brand.store');
-	Route::get('brand/{id}/edit', 'BrandController@edit')->name('brand.edit');
-	Route::post('brand/update', 'BrandController@update')->name('brand.update');
-	Route::get('brand/delete/{id}', 'BrandController@delete')->name('brand.delete');
+	Route::get('stock/brand', 'BrandController@index')->name('brand');
+	Route::post('stock/brand/store', 'BrandController@store')->name('brand.store');
+	Route::get('stock/brand/{id}/edit', 'BrandController@edit')->name('brand.edit');
+	Route::post('stock/brand/update', 'BrandController@update')->name('brand.update');
+	Route::get('stock/brand/delete/{id}', 'BrandController@delete')->name('brand.delete');
 
 	// stock routes
 	Route::get('stock/shop', 'StockController@stockShop_index')->name('stockShop');
@@ -125,11 +133,30 @@ Route::group(['middleware' => ['admin'], 'namespace' => 'Admin'], function(){
 	Route::get('stock/shop/{id}/edit', 'StockController@stockShop_edit')->name('stockShop.edit');
 	Route::post('stock/shop/update', 'StockController@stockShop_update')->name('stockShop.update');
 	Route::get('stock/shop/delete/{id}', 'StockController@stockShop_delete')->name('stockShop.delete');
+	//get shop due for payment
+	Route::get('stock/shop/getdue/{shop_id}', 'StockController@get_duePayment')->name('stock.duePayment');
+	//shop payment 
+	Route::post('stock/shop/payment', 'StockController@stockPayment')->name('stock.payment');
+	//stock details by shop
+	Route::get('stock/shop/{id}/{name?}', 'StockController@stockByShop')->name('stock.ByShop');
+	//stock details by category
+	Route::get('stock/category/{cat_id}/{name?}', 'StockController@stockByCategory')->name('stock.ByCategory');
+	//used stock count by category
+	Route::get('stock/used/list', 'StockController@usedStock')->name('stock.used');
+	//used stock by category 
+	Route::get('stock/used/list/{cat_id}/{name?}', 'StockController@stockUsedByCategory')->name('stock.usedByCategory');
+	//send used stock 
+	Route::get('stock/send/type/{id}', 'StockController@stockSendType')->name('stock.sendType');
+	Route::post('stock/send', 'StockController@stockSend')->name('stock.send');
+
+	//stock details by invoice
+	Route::get('stock/invoice/{id}', 'StockController@stockByinvoice')->name('stock.Byinvoice');
+
+	Route::get('stock/payment/history/{id}/{name?}', 'StockController@stockPaymentHistory')->name('stock.paymentHistory');
 	
 	Route::get('stock/out/type', 'StockController@stockOutType')->name('stock.outType');
 	Route::post('stock/out', 'StockController@stockOut')->name('stock.out');
-	Route::get('stock-out/details/{id}/{name?}', 'StockController@stockOutDetails')->name('stock.outDetails');
-
+	Route::get('stock/out/details/{id}/{name?}', 'StockController@stockOutDetails')->name('stock.outDetails');
 
 	// role routes
 	Route::get('role/create', 'RoleController@create')->name('role.create');

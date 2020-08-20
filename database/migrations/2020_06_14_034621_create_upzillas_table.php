@@ -15,6 +15,7 @@ class CreateUpzillasTable extends Migration
     {
         Schema::create('upzillas', function (Blueprint $table) {
             $table->id();
+            $table->integer('vendor_id')->nullable();
             $table->string('name');
             $table->string('district_id');
             $table->integer('status')->default(1);

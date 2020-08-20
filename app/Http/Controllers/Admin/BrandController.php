@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 use Brian2694\Toastr\Facades\Toastr;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+
 class BrandController extends Controller
 {
     public function index()
     {
-        $get_data = Brand::orderBy('id', 'desc')->get();
+        $vendor_id = Auth::user()->vendor_id;
+        $get_data = Brand::orderBy('id', 'desc')->where('vendor_id', $vendor_id)->get();
         return view('admin.brand.brand')->with(compact('get_data'));
     }
 
@@ -55,10 +57,11 @@ class BrandController extends Controller
         return back();
     }
 
-  
+
     public function delete($id)
     {
-        $delete = Brand::where('id', $id)->delete();
+        $vendor_id = Auth::user()->vendor_id;
+        $delete = Brand::where('id', $id)->where('vendor_id', $vendor_id)->delete();
 
         if($delete){
             $output = [

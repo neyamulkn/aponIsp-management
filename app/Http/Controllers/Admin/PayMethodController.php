@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\PayMethod;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PayMethodController extends Controller
 {
     public function index()
     {
-        $get_data = PayMethod::orderBy('id', 'desc')->get();
+        $get_data = PayMethod::orderBy('id', 'desc')->where('vendor_id', Auth::user()->vendor_id)->get();
         return view('admin.pay-method')->with(compact('get_data'));
     }
 
@@ -55,7 +56,7 @@ class PayMethodController extends Controller
 
     public function update(Request $request)
     {
-        $update = PayMethod::where('id', $request->id)->update([
+        $update = PayMethod::where('id', $request->id)->where('vendor_id', Auth::user()->vendor_id)->update([
             'name' => $request->name,
             'status' => ($request->status) ? 1 : 0
         ]);
@@ -75,7 +76,7 @@ class PayMethodController extends Controller
      */
     public function delete($id)
     {
-        $delete = PayMethod::where('id', $id)->delete();
+        $delete = PayMethod::where('id', $id)->where('vendor_id', Auth::user()->vendor_id)->delete();
 
         if($delete){
             $output = [

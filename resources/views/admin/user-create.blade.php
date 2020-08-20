@@ -497,7 +497,7 @@
                                                 <select required name="role_id" id="role_id" class="form-control custom-select">
                                                    <option value="">Select Role</option>
                                                    @foreach($roles as $role)
-                                                        <option {{ (2 == $role->id ? 'selected' : '' ) }} value="{{$role->id}}">{{$role->name}}</option>
+                                                        <option {{ (4 == $role->id ? 'selected' : '' ) }} value="{{$role->id}}">{{$role->name}}</option>
                                                     @endforeach
                                                 </select>
                                                 @if ($errors->has('role_id'))

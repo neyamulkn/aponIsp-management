@@ -137,7 +137,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-actions">
+                                            <div class="modal-footer">
                                                 <button type="submit" name="submit" value="add" class="btn btn-success"> <i class="fa fa-check"></i> Save</button>
                                                 <button type="button" data-dismiss="modal" class="btn btn-inverse">Cancel</button>
                                             </div>

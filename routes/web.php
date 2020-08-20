@@ -41,12 +41,7 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
 	// paymentmethod routes
 	Route::get('payment/dashboard', 'PaymentController@dashboard')->name('payment.dashboard');
 	
-	Route::get('paymentmethod/create', 'PayMethodController@index')->name('paymentmethod.create');
-	Route::post('paymentmethod/store', 'PayMethodController@store')->name('paymentmethod.store');
-	Route::get('paymentmethod/list', 'PayMethodController@index')->name('paymentmethod.list');
-	Route::get('paymentmethod/edit/{id}', 'PayMethodController@edit')->name('paymentmethod.edit');
-	Route::post('paymentmethod/update', 'PayMethodController@update')->name('paymentmethod.update');
-	Route::get('paymentmethod/delete/{id}', 'PayMethodController@delete')->name('paymentmethod.delete');	
+
 
 	Route::get('payment/list', 'PaymentController@list')->name('payment.list');
 	Route::post('payment/store', 'PaymentController@store')->name('payment.store');

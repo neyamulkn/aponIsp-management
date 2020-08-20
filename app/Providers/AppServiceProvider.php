@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
 
         $siteSetting = [
             'date_format' => 'd M, Y',
-            'STRIPE_KEY' => '',
+            'currency_symble' => '$',
         ];
         Config::set('siteSetting', $siteSetting);
     }

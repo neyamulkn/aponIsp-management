@@ -20,7 +20,7 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 align-self-center">
-                        <h4 class="text-themecolor">subzone List</h4>
+                        <h4 class="text-themecolor">Subzone List</h4>
                     </div>
                     <div class="col-md-7 align-self-center text-right">
                         <div class="d-flex justify-content-end align-items-center">
@@ -147,7 +147,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-actions">
+                                            <div class="modal-footer">
                                                 <button type="submit" name="submit" value="add" class="btn btn-success"> <i class="fa fa-check"></i> Save</button>
                                                 <button type="button" data-dismiss="modal" class="btn btn-inverse">Cancel</button>
                                             </div>

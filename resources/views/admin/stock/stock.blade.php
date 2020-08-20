@@ -1,344 +1,198 @@
 @extends('layouts.master')
 @section('title', 'Stock list')
 @section('css')
-    <link rel="stylesheet" type="text/css"
-        href="{{asset('assets')}}/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css">
-    <link rel="stylesheet" type="text/css"
-        href="{{asset('assets')}}/node_modules/datatables.net-bs4/css/responsive.dataTables.min.css">
-
+<style type="text/css">
+    .tbl-footer{background: #fec107ba;font-weight: 700;}
+    .tbl-footer td{padding: 3px;}
+</style>
 @endsection
 @section('content')
         
-        <div class="page-wrapper">
-          
-            <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <div class="row page-titles">
-                    <div class="col-md-5 align-self-center">
-                        <h4 class="text-themecolor">Stock List</h4>
-                    </div>
-                    <div class="col-md-7 align-self-center text-right">
-                        <div class="d-flex justify-content-end align-items-center">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="javascript:void(0)">Stock</a></li>
-                                <li class="breadcrumb-item active">list</li>
-                            </ol>
-                            <button data-toggle="modal" data-target="#add" class="btn btn-info d-none d-lg-block m-l-15"><i
-                                    class="fa fa-plus-circle"></i> Add New Stock</button>
-                        </div>
+    <div class="page-wrapper">
+      
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <div class="row page-titles">
+                <div class="col-md-5 align-self-center">
+                    <h4 class="text-themecolor">All Stock List</h4>
+                </div>
+                <div class="col-md-7 align-self-center text-right">
+                    <div class="d-flex justify-content-end align-items-center">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Stock</a></li>
+                            <li class="breadcrumb-item active">list</li>
+                        </ol>
+                        <button data-toggle="modal" data-target="#add" class="btn btn-info d-none d-lg-block m-l-15"><i
+                                class="fa fa-plus-circle"></i> Add New Stock</button>
                     </div>
                 </div>
-                <!-- ============================================================== -->
-                <!-- End Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Start Page Content -->
-                <!-- ============================================================== -->
-                <div class="row">
-                    <div class="col-12">
-
-                        <div class="card">
-                            <div class="card-body">
-
-                                <div class="table-responsive">
-                                    <table id="myTable" class="table color-bordered-table dark-bordered-table ">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Brand</th>
-                                                <th>Code</th>
-                                                <th>Serial</th>
-                                                <th>Model</th>
-                                                <th>Quantity</th>
-                                                <th>Available</th>
-                                                <th>Category</th>
-                                                <th>Price</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead> 
-                                        <tbody>
-                                            @foreach($get_stocks as $data)
-                                            <tr id="item{{$data->id}}">
-                                                <td><a href="{{route('stock.outDetails', [$data->id, $data->name] )}}" title="View details">{{$data->name}}</a></td>
-                                                <td>@if($data->get_category){{$data->get_category->name}}@endif</td>
-                                                <td>{{$data->code}}</td>
-                                                <td>{{$data->serial}}</td>
-                                                <td>{{$data->model}}</td>
-                                                <td>{{$data->quantity}}</td>
-                                                <td>{{$data->available}}</td>
-                                                <td>@if($data->get_category){{$data->get_category->name}}@endif</td>
-                                                <td>{{$data->price}}</td>
-                                                <td>{!!($data->status == 1) ? '<span class="label label-info"> Active</span>' : '<span class="label label-danger"> Deactive </span>'!!}  
-                                                </td>
-                                                <td>
-                                                    <button type="button" onclick="stockOut('{{$data->id}}')"  data-toggle="modal" data-target="#stockOut" class="btn btn-primary btn-sm"><i class="fa fa-upload" aria-hidden="true"></i> Stock Out</button>
-
-                                                    <a href="{{route('stock.outDetails', [$data->id, $data->name] )}}" title="View details" class="btn btn-info btn-sm"><i class="ti-eye" aria-hidden="true"></i></button>
-                                                   
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- ============================================================== -->
-                <!-- End PAge Content -->
-                <!-- ============================================================== -->
-
             </div>
             <!-- ============================================================== -->
-            <!-- End Container fluid  -->
+            <!-- End Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Start Page Content -->
+            <!-- ============================================================== -->
+
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="{{ route('stock') }}" method="get" class="floating-labels">
+                            <div class="row">
+                                <div class="col-md-12">All Stock Balance/ Report
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Item">Item Name</label>
+                                        <input name="q" id="Item" type="text" value="{{ Request::get('q') }}" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="srccategory">Category Name</label>
+                                        <select name="category" id="srccategory" class="form-control custom-select">
+                                            <option value="">All Category</option>
+                                            @foreach($get_category as $category)
+                                                <option @if(Request::get('category') == $category->id ) selected @endif value="{{$category->id}}">{{$category->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button style="color: #fff" class="form-control btn btn-primary"><i class="fa fa-search"></i> Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                            <div class="table-responsive">
+                                <table class="table  table-striped color-table warning-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Stock Name</th>
+                                            <th>Brand</th>
+                                            <th>Code</th>
+                                            <th>Serial</th>
+                                            <th>Model</th>
+                                            <th>Category</th>
+                                            <th>Quantity</th>
+                                            <th>Available</th>
+                                            <th>Price</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead> 
+                                    <tbody>
+                                        @if(count($get_stocks)>0)
+                                        @foreach($get_stocks as $data)
+                                        <tr id="item{{$data->id}}">
+                                            <td><a href="{{route('stock.outDetails', [$data->id, $data->name] )}}" title="View details">{{$data->name}}</a></td>
+                                            <td>@if($data->get_category){{$data->get_category->name}}@endif</td>
+                                            <td>{{$data->code}}</td>
+                                            <td>{{$data->serial}}</td>
+                                            <td>{{$data->model}}</td>
+                                           
+                                            <td>@if($data->get_category){{$data->get_category->name}}@endif</td>
+                                             <td>{{$data->quantity}}</td>
+                                            <td><span @if($data->available<0) style="color:red" @endif>{{$data->available}}</span></td>
+                                            <td>{{$data->price}}</td>
+                                            <td>In {{$data->status}}</td>
+                                            <td>
+                                                <button type="button" @if($data->available > 0 && $data->status != 'return' && $data->status != 'warranty') onclick="stockOut('{{$data->id}}')"  data-toggle="modal" data-target="#stockOut" @else title="Stock in {{$data->status}}" style="cursor:not-allowed" disabled @endif class="btn btn-primary btn-sm"><i class="fa fa-upload" aria-hidden="true"></i> Stock Out</button>
+
+                                            
+                                                 <div class="btn-group">
+                                                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fa fa-cog"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item text-inverse" title="View Stock Out History" data-toggle="tooltip" href="{{route('stock.outDetails', [$data->id, $data->name] )}}"><i class="ti-eye"></i> Stock Out History</a>
+                                                           
+                                                            <span title="Edit Shop" data-toggle="tooltip">
+                                                            <a type="button" onclick="editStock('{{$data->id}}')"  data-toggle="modal" data-target="#edit" class="dropdown-item"  href=""><i class="ti-pin-alt"></i> Edit</a></span>
+                                                            
+                                                            <span title="Delete" data-toggle="tooltip"><button   data-target="#delete" onclick='deleteConfirmPopup("{{route("stockShop.delete", $data->id)}}")'  data-toggle="modal" class="dropdown-item" ><i class="ti-trash"></i> Delete Stock</button></span>
+                                                        </div>
+                                                    </div>
+                                               
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        <tr class="tbl-footer"><td></td><td></td><td></td><td></td><td></td><td></td><td>{{ $totalQty }}</td><td>{{ $availableQty }}</td><td>{{ $totalAmount }}</td><td></td><td></td></tr>
+                                        @else <tr style="text-align: center;"><td colspan="11">Stock not found.</td></tr> @endif
+                                    </tbody>
+                                </table>
+                                {{$get_stocks->appends(request()->query())->links()}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End PAge Content -->
+            <!-- ============================================================== -->
+
         </div>
         <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- add Modal -->
-        <div class="modal fade" id="add" role="dialog"  tabindex="-1" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-lg">
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page wrapper  -->
+    <!-- add Modal -->
+    @include('admin.stock.modal.stock-add')
+    <!-- stockOut Modal -->
+    @include('admin.stock.modal.stock-out')
+    <!-- delete Modal -->
+    @include('admin.modal.delete-modal')
 
-                  <!-- Modal content-->
-                  <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Add stock</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body form-row">
-                        <div class="card-body">
-                            <form action="{{route('stock.store')}}" method="POST" class="floating-labels">
-                                {{csrf_field()}}
-                                <div class="form-body">
-                                    <!--/row-->
-                                    <div class="row justify-content-md-center">
-
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="required" for="name">Stock Item</label>
-                                                <input  name="name" id="name" value="{{old('name')}}" required="" type="text" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="required" for="supplier_id">Shop Name</label>
-                                                <select required name="shop_id" id="supplier_id" class="form-control custom-select">
-                                                    <option value="">Select Shop</option>
-                                                    @foreach($shops as $shop)
-                                                        <option value="{{$shop->id}}">{{$shop->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="required" for="brand_id">Brand name</label>
-                                                <select required name="brand_id" id="brand_id" class="form-control custom-select">
-                                                    <option value="">Select Brand</option>
-                                                    @foreach($get_brand as $brand)
-                                                        <option value="{{$brand->id}}">{{$brand->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="required" for="category">Category Name</label>
-                                                <select  required name="category_id" id="category" class="form-control custom-select">
-                                                    <option value="">Select Category</option>
-                                                    @foreach($get_category as $category)
-                                                        <option value="{{$category->id}}">{{$category->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="product_code">Product Code</label>
-                                                <input  name="product_code" id="product_code" value="{{old('product_code')}}" type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                    
-                                        
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="Serial">Serial</label>
-                                                <input  name="serial" id="Serial" value="{{old('serial')}}" type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="Model">Model</label>
-                                                <input  name="model" id="Model" value="{{old('model')}}" type="text" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="mac">Mac</label>
-                                                <input  name="mac" id="mac" value="{{old('mac')}}" type="text" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="port">Port</label>
-                                                <input  name="port" id="port" value="{{old('port')}}" type="text" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="required" for="qty">Quantity</label>
-                                                <input  name="qty" id="qty" value="{{old('qty')}}" type="number" min="0" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="warranty">Warranty</label>
-                                                <input  name="warranty" id="warranty" value="{{old('warranty')}}" type="text" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="required" for="price">Price</label>
-                                                <input required name="price" id="price" value="{{old('price')}}" type="number" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="required" for="stock_date">Stock Date</label>
-                                                <input name="stock_date" id="stock_date" value="{{old('stock_date') ? old('stock_date') : Carbon\Carbon::parse(now())->format('Y-m-d')}}" required="" type="date" class="form-control">
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row justify-content-md-center">
-                                       <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label style="background: #fff;top:-10px;z-index: 1" for="notes">Notes</label>
-                                                <textarea name="notes" class="form-control" placeholder="Enter details" id="notes" rows="1">{{old('notes')}}</textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row justify-content-md-center">
-                                        <div class="col-md-12">
-                                            <div class="head-label">
-                                                <label class="switch-box">Status</label>
-                                                <div  class="status-btn" >
-                                                    <div class="custom-control custom-switch">
-                                                        <input name="status" checked  type="checkbox" class="custom-control-input" {{ (old('status') == 'on') ? 'checked' : '' }} id="status">
-                                                        <label  class="custom-control-label" for="status">Publish/UnPublish</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button type="submit" name="submit" value="add" class="btn btn-success"> <i class="fa fa-check"></i> Add Stock</button>
-                                                <button type="reset" data-dismiss="modal" class="btn btn-inverse">Cancel</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+    <!-- update Modal -->
+    <div class="modal fade" id="edit" role="dialog"  tabindex="-1" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <form action="{{route('stock.update')}}"  method="post">
+                  {{ csrf_field() }}
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update stock</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-            </div>
-          </div>
-        <!-- stockOut Modal -->
-        <div class="modal fade" id="stockOut" role="dialog"  tabindex="-1" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog">
-                <form action="{{route('stock.out')}}" class="floating-labels" method="post">
-                      {{ csrf_field() }}
+                <div class="modal-body form-row" id="edit_form"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-sm btn-success">Update</button>
+                </div>
+              </div>
+            </form>
+        </div>
+    </div>
 
-                  <!-- Modal content-->
-                  <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Stock out</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body form-row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="required" for="stockOutType">Wherever used</label>
-                                <select required name="type" id="stockOutType" class="form-control custom-select">
-                                    <option value="">Select one</option>
-                                    <option value="user">User</option>
-                                    <option value="box">Box</option>
-                                    <option value="tg">TG</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-12" id="stockOutByField"></div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="required" for="stockOutqty">Quantity</label>
-                                <input  name="qty" id="stockOutqty" value="{{old('qty')}}" type="number" min="0" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="required" for="amount">Price</label>
-                                <input required name="price" id="amount" value="{{old('price')}}" type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="required" for="stockout_date">Stock Out Date</label>
-                                <input  type="date" name="stock_date" id="stockout_date" value="{{old('stock_date') ? old('stock_date') : Carbon\Carbon::parse(now())->format('Y-m-d')}}" required="" type="date" class="form-control">
-                            </div>
-                        </div>
-
-                       <div class="col-md-12">
-                            <div class="form-group">
-                                <label style="background: #fff;top:-10px;z-index: 1" for="notes">Notes</label>
-                                <textarea name="notes" class="form-control" placeholder="Enter details" id="notes" rows="1">{{old('notes')}}</textarea>
-                            </div>
-                        </div>
-                                    
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button id="stock_id" name="stock_id"  value="" class="btn btn-sm btn-success">Stock out</button>
-                    </div>
-                  </div>
-                </form>
-            </div>
-          </div>
-
-    
 @endsection
 @section('js')
-    <!-- This is data table -->
-    <script src="{{asset('assets')}}/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="{{asset('assets')}}/node_modules/datatables.net-bs4/js/dataTables.responsive.min.js"></script>
 
-    <script>
-        $(document).ready( function() {
-            $('#myTable').dataTable({
-                "ordering": false
-            });
-        })
-
-    </script>
 
     <script type="text/javascript">
+
+    function editStock(id){
+          
+        var  url = '{{route("stock.edit", ":id")}}';
+        url = url.replace(':id',id);
+        $.ajax({
+            url:url,
+            method:"get",
+            success:function(data){
+                if(data){
+                    $("#edit_form").html(data);
+                }
+            }
+
+        });
+    }
 
     function stockOut(id){
         document.getElementById('stock_id').value = id;   
@@ -367,3 +221,5 @@
         }
     });
     </script>
+
+@endsection

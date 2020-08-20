@@ -6,13 +6,21 @@ table .custom-switch label {
     margin: -8px auto;
 }
 .custom-control.custom-switch{margin:0 20px;}
- .custom-control-label::before {
+.custom-control-label::before {
     left: -3.25rem;
     height: 2rem;
     width: 3.75rem;
     pointer-events: all;
     border-radius: .5rem;
 }
+
+.modal-header{padding: 5px 10px;}
+.warning-table thead th{color: #000 !important;}
+.tbl-footer{background: #fec107ba !important;font-weight: 700;}
+.tbl-footer td{padding: 3px;}
+
+.table td, .table th{padding: 6px;}
+.table tr th{font-weight: 700;}
 .custom-control-label{padding: 5px 15px !important;}
 
 .head-label{margin: 7px 30px 25px !important}

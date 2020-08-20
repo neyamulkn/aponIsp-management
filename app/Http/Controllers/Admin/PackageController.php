@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Package;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PackageController extends Controller
 {
@@ -16,7 +17,7 @@ class PackageController extends Controller
      */
     public function index()
     {
-        $get_data = Package::orderBy('id', 'desc')->get();
+        $get_data = Package::orderBy('id', 'desc')->where('vendor_id', Auth::user()->vendor_id)->get();
         return view('admin.package-list')->with(compact('get_data'));
     }
 
@@ -78,7 +79,7 @@ class PackageController extends Controller
             'vendor_id' => ($request->vendor_id ? $request->vendor_id : Auth::user()->vendor_id),
             'status' => ($request->status ? 1 : 0)
         ];
-        $store = Package::where('id', $id)->update($data);
+        $store = Package::where('id', $id)->where('vendor_id', Auth::user()->vendor_id)->update($data);
         if($store){
             Toastr::success('Package updated successfully.');
         }else{

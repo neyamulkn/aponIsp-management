@@ -17,9 +17,11 @@ class CreateStockShopsTable extends Migration
             $table->id();
             $table->integer('vendor_id')->nullable();
             $table->string('name', 75);
-            $table->string('address', 75)->nullable();
+            $table->string('mobile', 15)->nullable();
+            $table->string('address', 125)->nullable();
             $table->integer('created_by');
             $table->integer('updated_by')->nullable();
+            $table->softDeletes();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

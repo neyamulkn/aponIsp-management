@@ -7,14 +7,15 @@ use App\Models\District;
 use App\Models\Upzilla;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UpzillaController extends Controller
 {
 
     public function index()
     {
-        $get_district = District::where('status', 1)->get();
-        $get_data = Upzilla::orderBy('id', 'desc')->get();
+        $get_district = District::where('vendor_id', Auth::user()->vendor_id)->where('status', 1)->get();
+        $get_data = Upzilla::orderBy('id', 'desc')->where('vendor_id', Auth::user()->vendor_id)->get();
         return view('admin.upzilla')->with(compact('get_data', 'get_district'));
     }
 
@@ -44,7 +45,7 @@ class UpzillaController extends Controller
 
     public function edit($id)
     {
-        $get_district = District::where('status', 1)->get();
+        $get_district = District::where('status', 1)->where('vendor_id', Auth::user()->vendor_id)->get();
         $data = Upzilla::find($id);
         echo view('admin.edit.upzilla')->with(compact('data','get_district'));
     }

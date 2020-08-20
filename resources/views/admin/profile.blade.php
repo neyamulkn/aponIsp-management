@@ -115,15 +115,15 @@
                                         <div class="row">
                                             <div class="col-md-4 col-xs-6"> <strong>Box Name</strong>
                                                 <br>
-                                                <p class="text-muted">{{($user->customer->box->name) ? $user->customer->box->name : 'N/A'}}</p>
+                                                <p class="text-muted">{{($user->customer->box) ? $user->customer->box->name : 'N/A'}}</p>
                                             </div>
                                             <div class="col-md-4 col-xs-6 b-r"> <strong>Cable</strong>
                                                 <br>
-                                                <p class="text-muted">{{($user->customer->cable->name)? $user->customer->cable->name : 'N/A'}}</p>
+                                                <p class="text-muted">{{($user->customer->cable) ? $user->customer->cable->name : 'N/A'}}</p>
                                             </div>
                                             <div class="col-md-4 col-xs-6 b-r"> <strong>Setup By</strong>
                                                 <br>
-                                                <p class="text-muted">{{$user->customer->setupBy->name}}</p>
+                                                <p class="text-muted">{{ ($user->customer->setupBy) ? $user->customer->setupBy->name : 'N/A'}}</p>
                                             </div>
                                             
                                         </div>

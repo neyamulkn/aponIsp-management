@@ -10,6 +10,13 @@
 
 <div class="col-md-12">
     <div class="form-group">
+        <label for="emobile">Mobile Number</label>
+        <input  name="mobile" id="emobile" value="{{$data->mobile}}" required="" type="text" class="form-control">
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="form-group">
         <label style="background: #fff;top:-10px;z-index: 1" for="address">Address</label>
         <textarea name="address" class="form-control" placeholder="Enter address" id="address" rows="2">{{$data->address}}</textarea>
     </div>

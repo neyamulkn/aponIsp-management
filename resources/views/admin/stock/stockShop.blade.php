@@ -28,8 +28,8 @@
                                 <li class="breadcrumb-item"><a href="javascript:void(0)">Stock Shop</a></li>
                                 <li class="breadcrumb-item active">list</li>
                             </ol>
-                            <button data-toggle="modal" data-target="#add" class="btn btn-info d-none d-lg-block m-l-15"><i
-                                    class="fa fa-plus-circle"></i> Create New</button>
+                            <button data-toggle="modal" data-target="#shop" class="btn btn-info d-none d-lg-block m-l-15"><i
+                                    class="fa fa-plus-circle"></i> Add New Shop</button>
                         </div>
                     </div>
                 </div>
@@ -50,21 +50,45 @@
                                         <thead>
                                             <tr>
                                                 <th>Shop Name</th>
-                                                <th>address</th>
+                                                <th>Mobile</th>
+                                                <th>Purchese Balance</th>
+                                                <th>Total Payment</th>
+                                                <th>Remaining Balance</th>
+                                                <th>Address</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead> 
                                         <tbody>
                                             @foreach($get_data as $data)
+                                            <?php $purcheseAll = array_sum(array_column($data->get_stock->toArray(), 'price'));
+                                                $payments = array_sum(array_column($data->get_payment->toArray(), 'amount'));
+                                            ?>
                                             <tr id="item{{$data->id}}">
-                                                <td>{{$data->name}}</td>
+                                                <td><a  href="{{ route('stock.paymentHistory', [$data->id, $data->name]) }}"> {{$data->name}}</a></td>
+                                                <td>{{$data->mobile}}</td>
+                                                <td>{{Config::get('siteSetting.currency_symble')}}{{ $purcheseAll  }}</td>
+                                                <td>{{Config::get('siteSetting.currency_symble')}}{{ $payments }}</td>
+                                                <td>{{Config::get('siteSetting.currency_symble')}}{{$purcheseAll - $payments }}</td>
                                                 <td>{{$data->address}}</td>
                                                 <td>{!!($data->status == 1) ? "<span class='label label-info'>Active</span>" : '<span class="label label-danger">Deactive</span>'!!} 
                                                 </td>
                                                 <td>
-                                                    <button type="button" onclick="edit('{{$data->id}}')"  data-toggle="modal" data-target="#edit" class="btn btn-info btn-sm"><i class="ti-pencil" aria-hidden="true"></i> Edit</button>
-                                                    <button data-target="#delete" onclick="deleteConfirmPopup('{{ route("stockShop.delete", $data->id) }}')" class="btn btn-danger btn-sm" data-toggle="modal"><i class="ti-trash" aria-hidden="true"></i> Delete</button>
+                                                    <button type="button" onclick="shopPayment('{{$data->id}}')"  data-toggle="modal" data-target="#stockPayment" class="btn btn-success"><span style="font-weight: bold;" aria-hidden="true">{{Config::get('siteSetting.currency_symble')}}</span> Payment</button>
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fa fa-cog"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item text-inverse" title="View Stock History" data-toggle="tooltip" href="{{ route('stock.ByShop', [$data->id, $data->name]) }}"><i class="ti-eye"></i> Stock History</a>
+                                                            <a class="dropdown-item text-inverse" title="View Payment History" data-toggle="tooltip" href="{{ route('stock.paymentHistory', [$data->id, $data->name]) }}"><i class="ti-eye"></i> Payment History</a>
+                                                            
+                                                            <span title="Edit Shop" data-toggle="tooltip">
+                                                            <a type="button" onclick="edit('{{$data->id}}')"  data-toggle="modal" data-target="#edit" class="dropdown-item"  href=""><i class="ti-pin-alt"></i> Edit</a></span>
+                                                            
+                                                            <span title="Delete" data-toggle="tooltip"><button   data-target="#delete" onclick='deleteConfirmPopup("{{route("stockShop.delete", $data->id)}}")'  data-toggle="modal" class="dropdown-item" ><i class="ti-trash"></i> Delete Shop</button></span>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -73,13 +97,11 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
-
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
@@ -88,64 +110,7 @@
         <!-- ============================================================== -->
         <!-- End Page wrapper  -->
         <!-- add Modal -->
-        <div class="modal fade" id="add" role="dialog"  tabindex="-1" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog">
-
-                  <!-- Modal content-->
-                  <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Create Stock Shop</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body form-row">
-                        <div class="card-body">
-                            <form action="{{route('stockShop.store')}}" enctype="multipart/form-data" method="POST" class="floating-labels">
-                                {{csrf_field()}}
-                                <div class="form-body">
-                                    <!--/row-->
-                                    <div class="row justify-content-md-center">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="name"> Shop Name</label>
-                                                <input  name="name" id="name" value="{{old('name')}}" required="" type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                     
-                                    </div>
-                                    
-
-                                    <div class="row justify-content-md-center">
-                                       <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label style="background: #fff;top:-10px;z-index: 1" for="address">Address</label>
-                                                <textarea name="address" class="form-control" placeholder="Enter details" id="address" rows="2">{{old('address')}}</textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row justify-content-md-center">
-                                        <div class="col-md-12">
-                                            <div class="head-label">
-                                                <label class="switch-box">Status</label>
-                                                <div  class="status-btn" >
-                                                    <div class="custom-control custom-switch">
-                                                        <input name="status" checked  type="checkbox" class="custom-control-input" {{ (old('status') == 'on') ? 'checked' : '' }} id="status">
-                                                        <label  class="custom-control-label" for="status">Publish/UnPublish</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" name="submit" value="add" class="btn btn-success"> <i class="fa fa-check"></i> Save</button>
-                                                <button type="button" data-dismiss="modal" class="btn btn-inverse">Cancel</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-          </div>
+        @include('admin.stock.modal.shop')
         <!-- update Modal -->
         <div class="modal fade" id="edit" role="dialog"  tabindex="-1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog">
@@ -166,10 +131,11 @@
                 </form>
             </div>
           </div>
-
+        
+        <!-- Stock payment Modal -->
+        @include('admin.stock.modal.stock-payment')
         <!-- delete Modal -->
         @include('admin.modal.delete-modal')
-
 
 @endsection
 @section('js')
@@ -177,12 +143,13 @@
     <script src="{{asset('assets')}}/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="{{asset('assets')}}/node_modules/datatables.net-bs4/js/dataTables.responsive.min.js"></script>
    <script>
-        $(function () { $('#myTable').DataTable();});
-
+        $('#myTable').dataTable({
+                "ordering": false
+            });
     </script>
 
     <script type="text/javascript">
-
+   
     function edit(id){
         $('#edit_form').html('<div id="loading"></div>');
         var  url = '{{route("stockShop.edit", ":id")}}';
@@ -196,10 +163,37 @@
                 }
             },
             // $ID Error display id name
-            @include('common.ajaxError', ['ID' => 'dit_form'])
+            @include('common.ajaxError', ['ID' => 'edit_form'])
 
         });
     }
+
+    function shopPayment(id){
+        
+        var  url = '{{route("stock.duePayment", ":id")}}';
+        url = url.replace(':id',id);
+        $.ajax({
+            url:url,
+            method:"get",
+            success:function(data){
+                if(data){
+                    $("#dueAmount").html(data);
+                }
+            },
+            // $ID Error display id name
+            @include('common.ajaxError', ['ID' => 'shop_dues'])
+
+        });  
+    }
+
+    function PaymentMethod(type){
+       
+        if(type == 'cheque'){
+            $('#PaymentMethodField').html('<span class="required" for="cheque_no">Cheque No</span><div class="form-group"><input required name="cheque_no" id="cheque_no" placeholder="Enter Cheque No" type="text" class="form-control"></div>');
+        }else{
+            $('#PaymentMethodField').html('');
+        }
+    }          
 
 </script>
 

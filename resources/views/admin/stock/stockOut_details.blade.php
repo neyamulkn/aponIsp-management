@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Stock details')
+@section('title', Request::segment(4). ' stock out details')
 @section('css')
     <link rel="stylesheet" type="text/css"
         href="{{asset('assets')}}/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css">
@@ -17,7 +17,7 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 align-self-center">
-                        <h4 class="text-themecolor">Stock details</h4>
+                        <h4 class="text-themecolor">{{Request::segment(4)}} stock out details</h4>
                     </div>
                     <div class="col-md-7 align-self-center text-right">
                         <div class="d-flex justify-content-end align-items-center">
@@ -25,7 +25,8 @@
                                 <li class="breadcrumb-item"><a href="javascript:void(0)">Stock</a></li>
                                 <li class="breadcrumb-item active">details</li>
                             </ol>
-                            <button type="button" onclick="stockOut('{{$stock_id}}')"  data-toggle="modal" data-target="#stockOut" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-upload" aria-hidden="true"></i> Stock Out</button>
+                            <a href="{{url()->previous()}}" class="btn btn-info d-none d-lg-block m-l-15"><i
+                                    class="fa fa-arrow-alt-circle-left"></i> Back</a>
                            
                         </div>
                     </div>
@@ -43,7 +44,7 @@
                             <div class="card-body">
 
                                 <div class="table-responsive">
-                                    <table id="myTable" class="table table-bordered table-striped">
+                                    <table id="myTable" class="table color-table warning-table table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Out Date</th>
@@ -53,10 +54,9 @@
                                                 <th>Quantity</th>
                                                 <th>Available</th>
                                                 <th>Amount</th>
-                                                <th>Created By</th>
+                                                <th>Out By</th>
                                                 <th>Details</th>
-                                                <th>Status</th>
-                                               
+                                                
                                             </tr>
                                         </thead> 
                                         <tbody>
@@ -71,7 +71,7 @@
                                                 <td>{{$data->price}}</td>
                                                 <td><a href="{{route('user.profile', $data->supply_by->username)}}"> {{$data->supply_by->name}}</a></td>
                                                 <td>{!!$data->notes!!} </td>
-                                                <td>{!!$data->status!!} </td>
+                                                
                                                
                                             </tr>
                                             @endforeach
@@ -122,13 +122,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="required" for="stockOutqty">Quantity</label>
-                                <input  name="qty" id="stockOutqty" value="{{old('qty')}}" type="number" min="0" class="form-control">
+                                <input required="" name="qty" id="stockOutqty" value="{{old('qty')}}" type="number" min="0" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="required" for="amount">Price</label>
-                                <input required name="price" id="amount" value="{{old('price')}}" type="text" class="form-control">
+                                <label for="amount">Price</label>
+                                <input name="price" id="amount" value="{{old('price')}}" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-12">

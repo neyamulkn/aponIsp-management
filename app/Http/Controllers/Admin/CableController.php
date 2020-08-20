@@ -6,16 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\cable;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CableController extends Controller
 {
     public function index()
     {
-        $get_data = Cable::orderBy('id', 'desc')->get();
+        $get_data = Cable::orderBy('id', 'desc')->where('vendor_id', Auth::user()->vendor_id)->get();
         return view('admin.cable')->with(compact('get_data'));
     }
 
- 
+
 
     public function store(Request $request)
     {
@@ -45,7 +46,7 @@ class CableController extends Controller
 
     public function update(Request $request, cable $cable)
     {
-        $update = Cable::where('id', $request->id)->update([
+        $update = Cable::where('id', $request->id)->where('vendor_id', Auth::user()->vendor_id)->update([
             'name' => $request->name,
             'notes' => $request->notes,
             'vendor_id' => ($request->vendor_id ? $request->vendor_id : Auth::user()->vendor_id),
@@ -59,10 +60,10 @@ class CableController extends Controller
         return back();
     }
 
-  
+
     public function delete($id)
     {
-        $delete = Cable::where('id', $id)->delete();
+        $delete = Cable::where('id', $id)->where('vendor_id', Auth::user()->vendor_id)->delete();
 
         if($delete){
             $output = [
