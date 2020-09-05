@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', Request::segment(4). ' stock out details')
+@section('title', Request::segment(5). ' stock out details')
 @section('css')
     <link rel="stylesheet" type="text/css"
         href="{{asset('assets')}}/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css">
@@ -17,7 +17,7 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 align-self-center">
-                        <h4 class="text-themecolor">{{Request::segment(4)}} stock out details</h4>
+                        <h4 class="text-themecolor">{{Request::segment(5)}} stock out details</h4>
                     </div>
                     <div class="col-md-7 align-self-center text-right">
                         <div class="d-flex justify-content-end align-items-center">

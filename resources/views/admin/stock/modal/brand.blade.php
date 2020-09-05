@@ -16,8 +16,8 @@
                                     <div class="row justify-content-md-center">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="brand">Brand Name</label>
-                                                <input  name="name" id="brand" value="{{old('name')}}" required="" type="text" class="form-control">
+                                                <label for="brandl">Brand Name</label>
+                                                <input  name="name" id="brandl" value="{{old('name')}}" required="" type="text" class="form-control">
                                             </div>
                                         </div>
                                      

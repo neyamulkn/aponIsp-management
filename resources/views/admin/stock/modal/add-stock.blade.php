@@ -17,7 +17,7 @@
 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="required" for="name">Stock Item</label>
+                                    <label class="required" for="name">Title</label>
                                     <input  name="name" id="name" value="{{old('name')}}" required="" type="text" class="form-control">
                                 </div>
                             </div>
