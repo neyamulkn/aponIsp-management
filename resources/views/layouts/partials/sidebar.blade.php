@@ -119,9 +119,9 @@
 
                 <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-map-alt"></i><span class="hide-menu">Network Map</span></a>
                     <ul aria-expanded="false" class="collapse">
-                        <li><a href="app-email.html">Mailbox</a></li>
-                        <li><a href="app-email-detail.html">Mailbox Detail</a></li>
-                        <li><a href="app-compose.html">Compose Mail</a></li>
+                        <li><a href="{{route('fiber')}}">Fiber</a></li>
+                        <li><a href="{{route('spliter')}}">Spliter</a></li>
+                        <li><a href="{{route('tj')}}">TJ</a></li>
                     </ul>
                 </li>
 

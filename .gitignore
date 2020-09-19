@@ -1,7 +1,11 @@
 /node_modules
 /resources/scripts
+/public/assets
+/public/upload
+/public/frontend
 /public/hot
 /public/storage
+/app/Providers/RouteServiceProvider.php
 /storage/*.key
 /vendor
 .env

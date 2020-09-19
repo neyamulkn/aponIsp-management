@@ -158,6 +158,7 @@ Route::group(['middleware' => ['admin'], 'namespace' => 'Admin'], function(){
 	Route::post('stock/out', 'StockController@stockOut')->name('stock.out');
 	Route::get('stock/out/details/{id}/{name?}', 'StockController@stockOutDetails')->name('stock.outDetails');
 
+
 	// role routes
 	Route::get('role/create', 'RoleController@create')->name('role.create');
 	Route::post('role/store', 'RoleController@store')->name('role.store');
@@ -166,7 +167,30 @@ Route::group(['middleware' => ['admin'], 'namespace' => 'Admin'], function(){
 	Route::post('role/update', 'RoleController@update')->name('role.update');
 	Route::get('role/delete/{id}', 'RoleController@delete')->name('role.delete');
 
+	// fiber routes
+	Route::get('fiber', 'FiberController@index')->name('fiber');
+	Route::post('fiber/store', 'FiberController@store')->name('fiber.store');
+	Route::get('fiber/{id}/edit', 'FiberController@edit')->name('fiber.edit');
+	Route::post('fiber/update', 'FiberController@update')->name('fiber.update');
+	Route::get('fiber/delete/{id}', 'FiberController@delete')->name('fiber.delete');
+	//show all core 
+	Route::get('show/fiber/core/{id}', 'FiberController@showFiberCore')->name('showFiberCore');
 
+
+	// spliter routes
+	Route::get('spliter', 'SpliterController@index')->name('spliter');
+	Route::post('spliter/store', 'SpliterController@store')->name('spliter.store');
+	Route::get('spliter/{id}/edit', 'SpliterController@edit')->name('spliter.edit');
+	Route::post('spliter/update', 'SpliterController@update')->name('spliter.update');
+	Route::get('spliter/delete/{id}', 'SpliterController@delete')->name('spliter.delete');
+	
+	
+	// tj routes
+	Route::get('tj', 'TjController@index')->name('tj');
+	Route::post('tj/store', 'TjController@store')->name('tj.store');
+	Route::get('tj/{id}/edit', 'TjController@edit')->name('tj.edit');
+	Route::post('tj/update', 'TjController@update')->name('tj.update');
+	Route::get('tj/delete/{id}', 'TjController@delete')->name('tj.delete');
 
 
 
