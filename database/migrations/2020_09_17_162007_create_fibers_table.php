@@ -20,7 +20,7 @@ class CreateFibersTable extends Migration
             $table->string('fiber_code')->nullable();
             $table->integer('fiber_core')->length(3);
             $table->string('notes')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
-use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Staff extends Model
+class Staff extends Authenticatable
 {
+    public $table = 'staffs';
     protected $guarded = [];
 
     public function user(){

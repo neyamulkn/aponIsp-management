@@ -8,8 +8,11 @@ class Fiber extends Model
 {
     protected $guarded = [];
 
-    public function fiber_cores(){
+    public function cores(){
         return $this->hasMany(Core::class, 'parent_id')->where('type', 'fiber');
     }
+
+
+
 
 }

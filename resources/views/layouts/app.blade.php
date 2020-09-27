@@ -19,16 +19,18 @@
     <link href="{{asset('css/pages/login-register-lock.css')}}" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
+    <style type="text/css">
+        a {color:#fff !important;}
+    </style>
     @yield('css')
 
 </head>
 <body>
     <div id="app">
-        <nav style="background: #fff;" class="navbar navbar-expand-md navbar-light shadow-sm">
+        <nav style="background: #808080;" class="navbar navbar-expand-md navbar-light shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Apon IT
+                    <img src="{{asset('frontend')}}/images/logo/logo-electronic.jpg" alt="" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>

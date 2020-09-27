@@ -3,19 +3,35 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Core;
+use App\Models\ExtendCore;
 use App\Models\Fiber;
+use App\Models\Spliter;
+use App\Traits\vendor;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FiberController extends Controller
 {
+    use Vendor;
     //display & add fiber list
     public function index()
     {
-        $get_data = Fiber::orderBy('id', 'desc')->get();
+        $get_data = Fiber::where('vendor_id', $this->vendor_id() )
+            ->withCount([
+                'cores as active_core' => function ($query) {
+                    $query->where('core_status', 1);
+                },
+                'cores as inactive_core' => function ($query) {
+                    $query->where('core_status', 0);
+                }
+            ])
+          ->orderBy('id', 'desc')->get();
+
         return view('admin.network-map.fiber')->with(compact('get_data'));
     }
+
     //inert fiber
     public function store(Request $request)
     {
@@ -24,13 +40,12 @@ class FiberController extends Controller
             'fiber_core' => 'required',
             'core_no' => 'required'
         ]);
-        $vendor_id = Auth::user()->vendor_id;
         $data = new Fiber();
         $data->fiber_name = $request->fiber_name;
         $data->fiber_code = $request->fiber_code;
         $data->fiber_core = $request->fiber_core;
         $data->notes = $request->notes;
-        $data->vendor_id = $vendor_id;
+        $data->vendor_id = $this->vendor_id() ;
         $data->status = ($request->status) ? 1 : 0;
         $store = $data->save();
         if($store){
@@ -61,12 +76,11 @@ class FiberController extends Controller
             'fiber_name' => 'required',
             'core_no' => 'required'
         ]);
-        $vendor_id = Auth::user()->vendor_id;
         $fiber = Fiber::where('id', $request->id)->first();
         $fiber->fiber_name = $request->fiber_name;
         $fiber->fiber_code = $request->fiber_code;
         $fiber->notes = $request->notes;
-        $fiber->vendor_id = $vendor_id;
+        $fiber->vendor_id = $this->vendor_id() ;
         $fiber->status = ($request->status) ? 1 : 0;
         $store = $fiber->save();
         if($store){
@@ -84,7 +98,8 @@ class FiberController extends Controller
     //delete fiber
     public function delete($id)
     {
-        $delete = Fiber::where('id', $id)->delete();
+
+        $delete = Fiber::where('vendor_id', $this->vendor_id() )->where('id', $id)->delete();
 
         if($delete){
             Core::where('parent_id', $id)->delete();
@@ -100,13 +115,37 @@ class FiberController extends Controller
         }
         return response()->json($output);
     }
-    //Show fiber core
+    //Show fiber core by fiber id
     public function showFiberCore($id){
-        $fiber = Fiber::with(['fiber_cores.spliter_cores'])->where('id', $id)->first()->toArray();
+        $get_cores = Fiber::with(['cores.extend_core'])->where('id', $id)->first();
 
-        if($fiber){
-            return view('admin.network-map.modal.core-extend')->with(compact('fiber'));
+        if($get_cores){
+            return view('admin.network-map.modal.core-extend')->with(compact('get_cores'));
         }
         return false;
+    }
+
+    //Show spliter list
+    public function getSpliter(Request $request, $extend_core_id){
+        $extend_id = $request->parent_id;
+        $spliters = Spliter::all();
+        $output = '';
+        if($spliters){
+           $output = view('admin.network-map.spliter-list')->with(compact('spliters', 'extend_id', 'extend_core_id'));
+        }
+        return $output;
+    }
+    //extend core by fiber id
+    public function extendCore(Request $request)
+    {
+        $core = Core::find($request->extend_core_id);
+
+        if($core) {
+            $core->update(['core_status' => 1]);
+            Fiber::where('id', $core->parent_id)->update(['status' => 1]);
+            Spliter::where('id', $request->spliter_id)->update(['extend_core_id' => $request->extend_core_id, 'status' => 1]);
+        }
+
+        return back();
     }
 }

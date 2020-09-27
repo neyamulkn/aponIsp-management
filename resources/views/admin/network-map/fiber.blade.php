@@ -13,9 +13,9 @@ select{
     color:#000 !important;
 
 }
-select option[value="2"] {
+/*select option[value="2"] {
   background: red;
-}
+}*/
 
 </style>
 @endsection
@@ -42,7 +42,7 @@ select option[value="2"] {
                             </ol>
                             <button data-toggle="modal" data-target="#add" class="btn btn-success d-none d-lg-block m-l-15"><i
                                 class="fa fa-plus-circle"></i> Add New Fiber</button>
-                           
+                          
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ select option[value="2"] {
                             <div class="card-body">
 
                                 <div class="table-responsive">
-                                    <table id="myTable" class="table table-bordered  table-striped">
+                                   <table id="config-table" class="table display table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Fiber Name</th>
@@ -76,13 +76,13 @@ select option[value="2"] {
                                                 <td>{{ $data->fiber_name }}</td>
                                                 <td>{{ $data->fiber_code }}</td>
                                                 <td>{{ $data->fiber_core}}</td>
-                                                <td>0</td>
-                                                <td>{{ $data->fiber_core}}</td>
+                                                <td>{{ $data->active_core}}</td>
+                                                <td>{{ $data->inactive_core}}</td>
                                                 <td>{{ $data->notes }}</td>
                                                 <td>{!!($data->status == 1) ? "<span class='label label-info'>Active</span>" : '<span class="label label-danger">Deactive</span>'!!} 
                                                 </td>
                                                 <td>
-                                                    <button type="button" onclick="getFiberCore('{{$data->id}}')"  data-toggle="modal" data-target="#modalFiberCore" class="btn btn-warning btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> Extend Core</button>
+                                                    <button type="button" onclick="getAllCore('{{$data->id}}')"  data-toggle="modal" data-target="#modalFiberCore" class="btn btn-warning btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View Core</button>
                                                    
                                                     <button type="button" onclick="edit('{{$data->id}}')"  data-toggle="modal" data-target="#edit" class="btn btn-info btn-sm"><i class="ti-pencil" aria-hidden="true"></i> Edit</button>
                                                     <button data-target="#delete" onclick="deleteConfirmPopup('{{ route("fiber.delete", $data->id) }}')" class="btn btn-danger btn-sm" data-toggle="modal"><i class="ti-trash" aria-hidden="true"></i> Delete</button>
@@ -131,26 +131,23 @@ select option[value="2"] {
             </div>
         </div>
 
-        <!-- extend Core Modal -->
+        <!-- Fiber Core Modal -->
         <div class="modal fade" id="modalFiberCore" role="dialog"  tabindex="-1" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog">
-                <form action="{{route('fiber.update')}}"  method="post">
-                      {{ csrf_field() }}
+            <div class="modal-dialog ">
+                <form action="{{route('fiber.extendCore')}}"  method="post">
+                    {{ csrf_field() }}
                   <!-- Modal content-->
                   <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Extend Fiber Core</h4>
+                        <h4 class="modal-title">Fiber Core List</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body" id="showFiberCore"></div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-sm btn-success">Update</button>
-                    </div>
+                   
                   </div>
                 </form>
             </div>
-        </div>
+        </div>        
     
         <!-- delete Modal -->
         @include('admin.modal.delete-modal')
@@ -162,7 +159,10 @@ select option[value="2"] {
     <script src="{{asset('assets')}}/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="{{asset('assets')}}/node_modules/datatables.net-bs4/js/dataTables.responsive.min.js"></script>
     <script>
-        $('#myTable').dataTable({ "ordering": false });
+    // responsive table
+        $('#config-table').DataTable({
+            responsive: true
+        });
     </script>
 
     <script type="text/javascript">
@@ -185,9 +185,9 @@ select option[value="2"] {
             });
         }        
 
-        function getFiberCore(id){
+        function getAllCore(id){
             $('#showFiberCore').html('<div id="loading"></div>');
-            var  url = '{{route("showFiberCore", ":id")}}';
+            var  url = '{{route("fiber.showAllCore", ":id")}}';
             url = url.replace(':id',id);
             $.ajax({
                 url:url,
@@ -198,7 +198,26 @@ select option[value="2"] {
                     }
                 },
                 // $ID Error display id name
-                @include('common.ajaxError', ['ID' => 'edit_form'])
+                @include('common.ajaxError', ['ID' => 'showFiberCore'])
+
+            });
+        }        
+
+        function getSpliter(parent_id, id){
+            $('#showFiberCore').html('<div id="loading"></div>');
+            var  url = '{{route("fiber.getAllSpliter", ":id")}}';
+            url = url.replace(':id',id);
+            $.ajax({
+                url:url,
+                method:"get",
+                data:{parent_id:parent_id},
+                success:function(data){
+                    if(data){
+                        $("#showFiberCore").html(data);
+                    }
+                },
+                // $ID Error display id name
+                @include('common.ajaxError', ['ID' => 'showFiberCore'])
 
             });
         }

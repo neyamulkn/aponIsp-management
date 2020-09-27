@@ -16,7 +16,6 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->integer('vendor_id')->nullable();
-            $table->integer('role_id');
             $table->string('name', 25);
             $table->integer('gender')->nullable();
             $table->string('birthday')->nullable();
@@ -29,7 +28,6 @@ class CreateUsersTable extends Migration
             $table->string('road_no')->nullable();
             $table->string('house_no')->nullable();
             $table->string('flat_no')->nullable();
-
 
             $table->string('username', 25);
             $table->string('mobile', 15)->unique()->nullable();

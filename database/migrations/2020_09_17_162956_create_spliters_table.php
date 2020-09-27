@@ -16,7 +16,7 @@ class CreateSplitersTable extends Migration
         Schema::create('spliters', function (Blueprint $table) {
             $table->id();
             $table->integer('vendor_id')->nullable();
-            $table->integer('fiber_core_id')->nullable();
+            $table->integer('extend_core_id')->nullable();
             $table->string('spliter_name');
             $table->integer('spliter_core')->length(3);
             $table->string('notes')->nullable();

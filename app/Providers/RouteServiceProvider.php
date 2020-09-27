@@ -21,7 +21,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard';
+    public const HOME = '/';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -31,7 +31,6 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-
         parent::boot();
     }
 
@@ -40,20 +39,28 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
+
     public function map()
     {
         $this->mapApiRoutes();
 
-        $this->mapWebRoutes();
-
         // for admin route
         $this->adminRoutes();
+
+        // for vendor route
+        $this->vendorRoutes();
+
+        // for staff route
+        $this->staffRoutes();
 
         // for user route
         $this->userRoutes();
 
-        // for staff route
-        $this->staffRoutes();
+        // for ajax route
+        $this->ajaxRoutes();
+
+        $this->mapWebRoutes();
+
     }
 
     /**
@@ -70,13 +77,6 @@ class RouteServiceProvider extends ServiceProvider
             ->group(base_path('routes/web.php'));
     }
 
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
-     */
     protected function mapApiRoutes()
     {
         Route::prefix('api')
@@ -88,26 +88,45 @@ class RouteServiceProvider extends ServiceProvider
     // for admin route
     protected function adminRoutes()
     {
-        Route::middleware('web')
-             ->namespace($this->namespace)
+        Route::prefix('admin')
+            ->middleware('web')
+             ->namespace($this->namespace.'\Admin')
              ->group(base_path('routes/adminRoutes.php'));
+    }
+
+    // for vendor route
+    protected function vendorRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace.'\Vendor')
+            ->group(base_path('routes/vendorRoutes.php'));
     }
 
     // for staff route
     protected function staffRoutes()
     {
-        Route::middleware('web')
-             ->namespace($this->namespace)
+        Route::prefix('Staff')
+            ->middleware('web')
+             ->namespace($this->namespace.'\Staff')
              ->group(base_path('routes/staffRoutes.php'));
     }
 
-    // for staff route
+    // for user route
     protected function userRoutes()
+    {
+        Route::prefix('User')
+            ->middleware('web')
+            ->namespace($this->namespace.'\User')
+            ->group(base_path('routes/userRoutes.php'));
+    }
+
+    // for ajax route
+    protected function ajaxRoutes()
     {
         Route::middleware('web')
              ->namespace($this->namespace)
-             ->group(base_path('routes/userRoutes.php'));
+             ->group(base_path('routes/ajaxRoutes.php'));
     }
 
-
 }
+

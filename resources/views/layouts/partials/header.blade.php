@@ -145,7 +145,9 @@
                 <!-- User Profile -->
                 <!-- ============================================================== -->
                 <li class="nav-item dropdown u-pro">
-                    <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{asset('assets')}}/images/users/1.jpg" alt="user" class=""> <span class="hidden-md-down">{{Auth::user()->name}} &nbsp;<i class="fa fa-angle-down"></i></span> </a>
+                    <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{asset('assets')}}/images/users/1.jpg" alt="user" class=""> <span class="hidden-md-down">
+                        @if(Auth::guard('admin')->check()){{Auth::guard('admin')->user()->name}} @endif
+                        @if(Auth::guard('vendor')->check()){{Auth::guard('vendor')->user()->vendor_name}} @endif &nbsp;<i class="fa fa-angle-down"></i></span> </a>
                     <div class="dropdown-menu dropdown-menu-right animated flipInY">
                         <!-- text-->
                         <a href="javascript:void(0)" class="dropdown-item"><i class="ti-user"></i> My Profile</a>

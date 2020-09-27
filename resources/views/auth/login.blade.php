@@ -10,7 +10,7 @@
 
                 <div class="card-body">
                       <!-- ============================================================== -->
-                        <form class="m-t-20" id="loginform" action="{{route('login')}}" method="post">
+                        <form class="m-t-20" id="loginform" action="{{route('vendorLogin')}}" method="post">
                        @csrf
                        
                             <div class="form-group">

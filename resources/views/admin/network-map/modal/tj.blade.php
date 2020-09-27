@@ -49,7 +49,7 @@
                                         <div class="col-8">
                                             <div  class="status-btn" >
                                             <div class="custom-control custom-switch">
-                                                <input name="status" checked  type="checkbox" class="custom-control-input" {{ (old('status') == 'on') ? 'checked' : '' }} id="tj_status">
+                                                <input name="status" type="checkbox" class="custom-control-input" {{ (old('status') == 'on') ? 'checked' : '' }} id="tj_status">
                                                 <label  class="custom-control-label" for="tj_status">Publish/UnPublish</label>
                                             </div>
                                         </div>

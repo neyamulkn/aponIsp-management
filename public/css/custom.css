@@ -14,6 +14,11 @@ table .custom-switch label {
     border-radius: .5rem;
 }
 
+.form-control {
+    min-height: 35px !important;
+   border: 1px solid #c2c3c3 !important;
+}
+
 .left-sidebar, .mega-dropdown .nav-accordion .card-header{background: #F8F8F8;}
 .sidebar-nav>ul>li{margin:inherit !important;}
 .sidebar-nav ul li a {
@@ -29,7 +34,7 @@ table .custom-switch label {
 .tbl-footer{background: #fec107ba !important;font-weight: 700;}
 .tbl-footer td{padding: 3px;}
 
-.table td, .table th{padding: 6px;}
+.table td, .table th{padding: 6px; vertical-align: middle;}
 .table tr th{font-weight: 700;}
 .custom-control-label{padding: 5px 15px !important;}
 

@@ -16,11 +16,12 @@ class CreateTjsTable extends Migration
         Schema::create('tjs', function (Blueprint $table) {
             $table->id();
             $table->integer('vendor_id')->nullable();
-            $table->string('tj_name');
+            $table->string('tj_name', 75);
+            $table->string('slug', 75);
             $table->integer('tj_ports');
             $table->string('tj_location')->nullable();
             $table->string('notes')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

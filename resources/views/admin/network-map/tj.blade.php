@@ -30,7 +30,7 @@
                             </ol>
                             <button data-toggle="modal" data-target="#add" class="btn btn-success d-none d-lg-block m-l-15"><i
                                 class="fa fa-plus-circle"></i> Add New TJ</button>
-                           
+                         
                         </div>
                     </div>
                 </div>
@@ -66,6 +66,8 @@
                                                 <td>{!!($data->status == 1) ? "<span class='label label-info'>Active</span>" : '<span class="label label-danger">Deactive</span>'!!} 
                                                 </td>
                                                 <td>
+                                                    <a href="{{ route('tj.connection', $data->slug) }}" class="btn btn-success btn-sm"><i class="ti-pencil" aria-hidden="true"></i> TJ Connection</a>
+
                                                     <button type="button" onclick="edit('{{$data->id}}')"  data-toggle="modal" data-target="#edit" class="btn btn-info btn-sm"><i class="ti-pencil" aria-hidden="true"></i> Edit</button>
                                                     <button data-target="#delete" onclick="deleteConfirmPopup('{{ route("tj.delete", $data->id) }}')" class="btn btn-danger btn-sm" data-toggle="modal"><i class="ti-trash" aria-hidden="true"></i> Delete</button>
                                                 </td>

@@ -7,42 +7,21 @@ use App\Http\Controllers\Controller;
 use App\Models\Designation;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
-
 class DesignationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //display all designation list
     public function index()
     {
         $get_data = Designation::orderBy('id', 'desc')->get();
-        return view('admin.designation')->with(compact('get_data'));
+        return view('admin.staff.designation')->with(compact('get_data'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('admin.designation');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    //store designation
     public function store(Request $request)
     {
         $data = [
             'designation' => $request->designation,
             'notes' => $request->notes,
-            'vendor_id' => ($request->vendor_id ? $request->vendor_id : Auth::user()->vendor_id),
             'status' => ($request->status ? 1 : 0)
         ];
         $store = Designation::create($data);
@@ -55,11 +34,11 @@ class DesignationController extends Controller
         return back();
     }
 
-
+    //edit designation
     public function edit($id)
     {
         $data = Designation::find($id);
-        echo view('admin.edit.designation')->with(compact('data'));
+        echo view('admin.staff.edit.designation')->with(compact('data'));
     }
 
 
@@ -68,7 +47,6 @@ class DesignationController extends Controller
         $data = [
             'designation' => $request->designation,
             'notes' => $request->notes,
-            'vendor_id' => ($request->vendor_id ? $request->vendor_id : Auth::user()->vendor_id),
             'status' => ($request->status ? 1 : 0)
         ];
         $store = Designation::where('id', $request->id)->update($data);

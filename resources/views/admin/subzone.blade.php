@@ -60,7 +60,7 @@
                                             @foreach($get_data as $data)
                                             <tr id="item{{$data->id}}">
                                                 <td>{{$data->name}}</td>
-                                                <td>{{$data->zone->name}}</td>
+                                                <td>@if($data->zone){{$data->zone->name}}@endif</td>
                                                 <td>{{$data->notes}}</td>
                                                 <td>{!!($data->status == 1) ? '<span class="label label-info"> Active</span>' : '<span class="label label-danger"> Deactive </span>'!!}  
                                                 </td>

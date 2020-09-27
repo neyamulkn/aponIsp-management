@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Zone;
+use App\Traits\vendor;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ZoneController extends Controller
 {
+    use vendor;
     public function index()
     {
         $get_data = Zone::where('zone_id', null)->orderBy('id', 'desc')->get();
@@ -26,18 +28,13 @@ class ZoneController extends Controller
         return view('admin.zone');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         $data = [
             'name' => $request->name,
             'notes' => $request->notes,
-            'vendor_id' => ($request->vendor_id ? $request->vendor_id : Auth::user()->vendor_id),
+            'vendor_id' => $this->vendor_id(),
             'status' => ($request->status ? 1 : 0)
         ];
         $store = Zone::create($data);
@@ -113,7 +110,7 @@ class ZoneController extends Controller
             'name' => $request->name,
             'zone_id' => $request->zone_id,
             'notes' => $request->notes,
-            'vendor_id' => ($request->vendor_id ? $request->vendor_id : Auth::user()->vendor_id),
+            'vendor_id' => $this->vendor_id(),
             'status' => ($request->status ? 1 : 0)
         ];
         $store = Zone::create($data);

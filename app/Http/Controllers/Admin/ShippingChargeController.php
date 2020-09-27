@@ -1,20 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Vendor;
+use App\Http\Controllers\Controller;
+use App\Models\ShippingCharge;
+use App\Models\ShippingMethod;
 use Illuminate\Http\Request;
 
-class VendorController extends Controller
+class ShippingChargeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function shipping_method()
     {
-        //
+//        return view('admin.shipping.shipping');
     }
 
     /**
@@ -41,10 +43,10 @@ class VendorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Vendor  $vendor
+     * @param  \App\Models\ShippingCharge  $shippingCharge
      * @return \Illuminate\Http\Response
      */
-    public function show(Vendor $vendor)
+    public function show(ShippingCharge $shippingCharge)
     {
         //
     }
@@ -52,10 +54,10 @@ class VendorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Vendor  $vendor
+     * @param  \App\Models\ShippingCharge  $shippingCharge
      * @return \Illuminate\Http\Response
      */
-    public function edit(Vendor $vendor)
+    public function edit(ShippingCharge $shippingCharge)
     {
         //
     }
@@ -64,10 +66,10 @@ class VendorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Vendor  $vendor
+     * @param  \App\Models\ShippingCharge  $shippingCharge
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Vendor $vendor)
+    public function update(Request $request, ShippingCharge $shippingCharge)
     {
         //
     }
@@ -75,10 +77,10 @@ class VendorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Vendor  $vendor
+     * @param  \App\Models\ShippingCharge  $shippingCharge
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Vendor $vendor)
+    public function destroy(ShippingCharge $shippingCharge)
     {
         //
     }

@@ -19,7 +19,7 @@ class CreateCoresTable extends Migration
             $table->integer('core_no')->length(3);
             $table->string('core_color', 8)->nullable();
             $table->string('type')->comment('fiber/spliter');
-            $table->integer('extend_id')->nullable();
+            $table->integer('spliter_id')->nullable();
             $table->tinyInteger('core_status')->default(0);
             $table->timestamps();
         });

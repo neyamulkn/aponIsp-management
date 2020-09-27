@@ -1,9 +1,10 @@
 <?php
+Route::get('dashboard', 'UserController@dashboard')->name('user.dashboard');
+Route::group(['middleware' => ['auth']], function(){
 
-use Illuminate\Support\Facades\Route;
-
-route::group(['middleware' => ['auth', 'admin'], 'namespace' => 'User'], function(){
+	
 
 });
+
 
 

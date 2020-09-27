@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
         $siteSetting = [
             'date_format' => 'd M, Y',
             'currency_symble' => '$',
+
         ];
         Config::set('siteSetting', $siteSetting);
     }

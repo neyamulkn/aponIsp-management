@@ -51,8 +51,8 @@
                                         <div class="col-8">
                                             <div  class="status-btn" >
                                             <div class="custom-control custom-switch">
-                                                <input name="status" checked  type="checkbox" class="custom-control-input" {{ (old('status') == 'on') ? 'checked' : '' }} id="spliter_status">
-                                                <label  class="custom-control-label" for="catstatus">Publish/UnPublish</label>
+                                                <input name="status"  type="checkbox" class="custom-control-input" {{ (old('status') == 'on') ? 'checked' : '' }} id="spliter_status">
+                                                <label  class="custom-control-label" for="spliter_status">Publish/UnPublish</label>
                                             </div>
                                         </div>
                                         </div>

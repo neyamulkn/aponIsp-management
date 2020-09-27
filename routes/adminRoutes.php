@@ -1,7 +1,13 @@
 <?php
 
-Route::group(['middleware' => ['admin'], 'namespace' => 'Admin'], function(){
+Route::get('/login', 'AdminLoginController@LoginForm')->name('adminLoginForm');
+Route::post('/login', 'AdminLoginController@login')->name('adminLogin');
+Route::get('/register', 'AdminLoginController@RegisterForm')->name('adminRegisterForm');
+Route::post('/register', 'AdminLoginController@register')->name('adminRegister');
+Route::get('/logout', 'AdminLoginController@logout')->name('adminLogout');
 
+Route::group(['middleware' => ['admin', 'auth:vendor']], function(){
+	Route::get('/', 'AdminController@dashboard')->name('admin.dashboard');
 	Route::get('zone/create', 'ZoneController@index')->name('zone.create');
 	Route::post('zone/store', 'ZoneController@store')->name('zone.store');
 	Route::get('zone/list', 'ZoneController@index')->name('zone.list');
@@ -18,7 +24,7 @@ Route::group(['middleware' => ['admin'], 'namespace' => 'Admin'], function(){
 	Route::get('subzone/delete/{id}', 'ZoneController@subzone_delete')->name('subzone.delete');
 
 	Route::get('get/subzone/{id}', 'ZoneController@get_subzone')->name('get_subzone');
-	
+
 
 	// district routes
 	Route::get('district/create', 'DistrictController@index')->name('district.create');
@@ -37,7 +43,7 @@ Route::group(['middleware' => ['admin'], 'namespace' => 'Admin'], function(){
 	Route::get('upzilla/delete/{id}', 'UpzillaController@delete')->name('upzilla.delete');
 
 	Route::get('get/upzilla/{id}', 'UpzillaController@get_upzilla')->name('get_upzilla');
-	
+
 	// box routes
 	Route::get('box/create', 'BoxController@index')->name('box.create');
 	Route::post('box/store', 'BoxController@store')->name('box.store');
@@ -59,7 +65,7 @@ Route::group(['middleware' => ['admin'], 'namespace' => 'Admin'], function(){
 	Route::get('paymentmethod/list', 'PayMethodController@index')->name('paymentmethod.list');
 	Route::get('paymentmethod/edit/{id}', 'PayMethodController@edit')->name('paymentmethod.edit');
 	Route::post('paymentmethod/update', 'PayMethodController@update')->name('paymentmethod.update');
-	Route::get('paymentmethod/delete/{id}', 'PayMethodController@delete')->name('paymentmethod.delete');	
+	Route::get('paymentmethod/delete/{id}', 'PayMethodController@delete')->name('paymentmethod.delete');
 
 
 
@@ -69,9 +75,9 @@ Route::group(['middleware' => ['admin'], 'namespace' => 'Admin'], function(){
 	Route::get('package/list', 'PackageController@index')->name('package.list');
 	Route::get('package/{id}/edit', 'PackageController@edit')->name('package.edit');
 	Route::post('package/update/{id}', 'PackageController@update')->name('package.update');
-	Route::get('package/delete/{id}', 'PackageController@delete')->name('package.delete');	
+	Route::get('package/delete/{id}', 'PackageController@delete')->name('package.delete');
 
-	Route::get('package/details/{id}', 'PackageController@package_details')->name('package.details');	
+	Route::get('package/details/{id}', 'PackageController@package_details')->name('package.details');
 
 
 	// user routes
@@ -94,15 +100,15 @@ Route::group(['middleware' => ['admin'], 'namespace' => 'Admin'], function(){
 	Route::get('designation/list', 'DesignationController@index')->name('designation.list');
 	Route::get('designation/{id}/edit', 'DesignationController@edit')->name('designation.edit');
 	Route::post('designation/update', 'DesignationController@update')->name('designation.update');
-	Route::get('designation/delete/{id}', 'DesignationController@delete')->name('designation.delete');	
-	
+	Route::get('designation/delete/{id}', 'DesignationController@delete')->name('designation.delete');
+
 	// staff routes
-	Route::get('staff/create', 'StaffController@create')->name('staff.create');
-	Route::post('staff/store', 'StaffController@store')->name('staff.store');
-	Route::get('staff/list', 'StaffController@index')->name('staff.list');
-	Route::get('staff/{id}/edit', 'StaffController@edit')->name('staff.edit');
-	Route::post('staff/update', 'StaffController@update')->name('staff.update');
-	Route::get('staff/delete/{id}', 'StaffController@delete')->name('staff.delete');	
+	Route::get('staff/create', 'AdminStaffController@create')->name('staff.create');
+	Route::post('staff/store', 'AdminStaffController@store')->name('staff.store');
+	Route::get('staff/list', 'AdminStaffController@index')->name('staff.list');
+	Route::get('staff/{id}/edit', 'AdminStaffController@edit')->name('staff.edit');
+	Route::post('staff/update', 'AdminStaffController@update')->name('staff.update');
+	Route::get('staff/delete/{id}', 'AdminStaffController@delete')->name('staff.delete');
 
 	// stock category routes
 	Route::get('stock/category', 'StockController@stockCategory_index')->name('stockCategory');
@@ -135,7 +141,7 @@ Route::group(['middleware' => ['admin'], 'namespace' => 'Admin'], function(){
 	Route::get('stock/shop/delete/{id}', 'StockController@stockShop_delete')->name('stockShop.delete');
 	//get shop due for payment
 	Route::get('stock/shop/getdue/{shop_id}', 'StockController@get_duePayment')->name('stock.duePayment');
-	//shop payment 
+	//shop payment
 	Route::post('stock/shop/payment', 'StockController@stockPayment')->name('stock.payment');
 	//stock details by shop
 	Route::get('stock/shop/{id}/{name?}', 'StockController@stockByShop')->name('stock.ByShop');
@@ -143,9 +149,9 @@ Route::group(['middleware' => ['admin'], 'namespace' => 'Admin'], function(){
 	Route::get('stock/category/{cat_id}/{name?}', 'StockController@stockByCategory')->name('stock.ByCategory');
 	//used stock count by category
 	Route::get('stock/used/list', 'StockController@usedStock')->name('stock.used');
-	//used stock by category 
+	//used stock by category
 	Route::get('stock/used/list/{cat_id}/{name?}', 'StockController@stockUsedByCategory')->name('stock.usedByCategory');
-	//send used stock 
+	//send used stock
 	Route::get('stock/send/type/{id}', 'StockController@stockSendType')->name('stock.sendType');
 	Route::post('stock/send', 'StockController@stockSend')->name('stock.send');
 
@@ -153,7 +159,7 @@ Route::group(['middleware' => ['admin'], 'namespace' => 'Admin'], function(){
 	Route::get('stock/invoice/{id}', 'StockController@stockByinvoice')->name('stock.Byinvoice');
 
 	Route::get('stock/payment/history/{id}/{name?}', 'StockController@stockPaymentHistory')->name('stock.paymentHistory');
-	
+
 	Route::get('stock/out/type', 'StockController@stockOutType')->name('stock.outType');
 	Route::post('stock/out', 'StockController@stockOut')->name('stock.out');
 	Route::get('stock/out/details/{id}/{name?}', 'StockController@stockOutDetails')->name('stock.outDetails');
@@ -173,8 +179,10 @@ Route::group(['middleware' => ['admin'], 'namespace' => 'Admin'], function(){
 	Route::get('fiber/{id}/edit', 'FiberController@edit')->name('fiber.edit');
 	Route::post('fiber/update', 'FiberController@update')->name('fiber.update');
 	Route::get('fiber/delete/{id}', 'FiberController@delete')->name('fiber.delete');
-	//show all core 
-	Route::get('show/fiber/core/{id}', 'FiberController@showFiberCore')->name('showFiberCore');
+	//show all core
+	Route::get('fiber/view/allcore/{id}', 'FiberController@showFiberCore')->name('fiber.showAllCore');
+	Route::get('fiber/get/spliter/list/{core_no}', 'FiberController@getSpliter')->name('fiber.getAllSpliter');
+	Route::post('fiber/extend/core', 'FiberController@extendCore')->name('fiber.extendCore');
 
 
 	// spliter routes
@@ -183,14 +191,22 @@ Route::group(['middleware' => ['admin'], 'namespace' => 'Admin'], function(){
 	Route::get('spliter/{id}/edit', 'SpliterController@edit')->name('spliter.edit');
 	Route::post('spliter/update', 'SpliterController@update')->name('spliter.update');
 	Route::get('spliter/delete/{id}', 'SpliterController@delete')->name('spliter.delete');
-	
-	
+	//show all core
+	Route::get('spliter/view/allcore/{id}', 'SpliterController@showSpliterCore')->name('spliter.showAllCore');
+	Route::get('spliter/get/spliter/list/{core_no}', 'SpliterController@getSpliter')->name('spliter.getAllSpliter');
+	Route::post('spliter/extend/core', 'SpliterController@extendCore')->name('spliter.extendCore');
+
 	// tj routes
 	Route::get('tj', 'TjController@index')->name('tj');
 	Route::post('tj/store', 'TjController@store')->name('tj.store');
 	Route::get('tj/{id}/edit', 'TjController@edit')->name('tj.edit');
 	Route::post('tj/update', 'TjController@update')->name('tj.update');
 	Route::get('tj/delete/{id}', 'TjController@delete')->name('tj.delete');
+
+	Route::get('tj/connection/{slug}', 'TjConnectionController@tjConnection')->name('tj.connection');
+	
+	Route::post('tj/connection/{slug}', 'TjConnectionController@tjConnectionStore')->name('tj.connectionStore');
+	Route::get('tj/connection/delete/{id}', 'TjConnectionController@delete')->name('tj.connectionDelete');
 
 
 

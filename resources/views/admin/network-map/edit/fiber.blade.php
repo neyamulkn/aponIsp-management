@@ -21,7 +21,7 @@
 </div>
 
 <div class="form-group row" id="ShowCoreupdate">
-    @foreach($fiber->fiber_cores as $core)
+    @foreach($fiber->cores as $core)
     <label for="example-color-input" class="col-3 col-md-3 text-right col-form-label">Core {{$core->core_no}}</label><div class="col-8 col-md-2"><input name="core_no[{{$core->id}}]" class="form-control" type="color" value="{{$core->core_color}}" id="example-color-input"></div>    
     @endforeach                      
 </div>

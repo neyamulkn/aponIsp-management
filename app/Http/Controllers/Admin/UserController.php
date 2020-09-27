@@ -8,23 +8,24 @@ use App\Models\Customers;
 use App\Models\District;
 use App\Models\Package;
 use App\Models\Role;
-use App\Models\Staff;
+use App\Staff;
 use App\Models\Upzilla;
 use App\Models\Zone;
+use App\Traits\vendor;
 use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
+    use Vendor;
+
     public function index(){
-        $users = Customers::with('user:id,name,mobile,email,username,subzone');
-        if(Auth::user()->vendor_id != 1){
-           $users->where('vendor_id', Auth::user()->vendor_id);
-        }
-        $users = $users->orderBy('id', 'desc')->get();
+        $users = Customers::with('user:id,name,mobile,email,username,subzone')
+            ->where('vendor_id', $this->vendor_id())
+            ->orderBy('id', 'desc')->get();
         return view('admin.user-list')->with(compact('users'));
     }
     public function create(){
@@ -53,7 +54,7 @@ class UserController extends Controller
                 'phato' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
 
-            $data = [
+        $data = [
                 'name' => $request->name,
                 'mobile' => $request->mobile,
                 'email' => $request->email,
@@ -71,7 +72,7 @@ class UserController extends Controller
                 'username' => $request->username,
                 'password' => Hash::make($request->password),
                 'role_id' => $request->role_id,
-                'vendor_id' => ($request->vendor_id ? $request->vendor_id : Auth::user()->vendor_id),
+                'vendor_id' => $this->vendor_id(),
                 'status' => ($request->status ? 1 : 0)
             ];
 
@@ -111,7 +112,7 @@ class UserController extends Controller
                     'marketing_by' => $request->marketing_by,
                     'setup_by' => $request->setup_by,
                     'ref_by' => $request->ref_by,
-                    'vendor_id' => ($request->vendor_id ? $request->vendor_id : Auth::user()->vendor_id),
+                    'vendor_id' => $this->vendor_id(),
                     'status' => ($request->status ? 1 : 0)
                 ];
 
@@ -133,22 +134,22 @@ class UserController extends Controller
     }
 
     public function active_user(){
-        $users = Customers::where('vendor_id', Auth::user()->vendor_id)->where('status', 1)->orderBy('id', 'desc')->get();
+        $users = Customers::where('vendor_id', $this->vendor_id())->where('status', 1)->orderBy('id', 'desc')->get();
         return view('admin.user-active')->with(compact('users'));
     }
 
     public function inactive_user(){
-        $users = Customers::where('vendor_id', Auth::user()->vendor_id)->where('status', 0)->orderBy('id', 'desc')->get();
+        $users = Customers::where('vendor_id', $this->vendor_id())->where('status', 0)->orderBy('id', 'desc')->get();
         return view('admin.user-inactive')->with(compact('users'));
     }
 
     public function block_user(){
-        $users = Customers::where('vendor_id', Auth::user()->vendor_id)->where('status', 0)->orderBy('id', 'desc')->get();
+        $users = Customers::where('vendor_id', $this->vendor_id())->where('status', 0)->orderBy('id', 'desc')->get();
         return view('admin.user-inactive')->with(compact('users'));
     }
 
     public function download_user(){
-        $users = Customers::where('vendor_id', Auth::user()->vendor_id)->orderBy('id', 'desc')->get();
+        $users = Customers::where('vendor_id', $this->vendor_id())->orderBy('id', 'desc')->get();
         return view('admin.user-download')->with(compact('users'));
     }
 

@@ -8,8 +8,8 @@ class Core extends Model
 {
     protected $guarded = [];
 
-    public function spliter_cores(){
-        return $this->hasMany(Spliter::class, 'fiber_core_id', 'id');
+    public function extend_core(){
+        return $this->belongsTo(Spliter::class, 'id', 'extend_core_id');
     }
 
 }

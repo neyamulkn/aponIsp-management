@@ -61,6 +61,7 @@ select option[value="2"] {
                                             <tr>
                                                 <th>Spliter Name</th>
                                                 <th>Total Core</th>
+                                                <th>Active Core</th>
                                                 <th>Available Core</th>
                                                 <th>Notes</th>
                                                 <th>Status</th>
@@ -73,11 +74,13 @@ select option[value="2"] {
                                             <tr id="item{{$data->id}}">
                                                 <td>{{ $data->spliter_name }}</td>
                                                 <td>{{ $data->spliter_core}}</td>
-                                                <td>{{ $data->spliter_core}}</td>
+                                                <td>{{ $data->active_core}}</td>
+                                                <td>{{ $data->inactive_core}}</td>
                                                 <td>{{ $data->notes }}</td>
                                                 <td>{!!($data->status == 1) ? "<span class='label label-info'>Active</span>" : '<span class="label label-danger">Deactive</span>'!!} 
                                                 </td>
                                                 <td>
+                                                   <button type="button" onclick="getAllCore('{{$data->id}}')"  data-toggle="modal" data-target="#modalSpliterCore" class="btn btn-warning btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View Core</button>
                                                    
                                                     <button type="button" onclick="edit('{{$data->id}}')"  data-toggle="modal" data-target="#edit" class="btn btn-info btn-sm"><i class="ti-pencil" aria-hidden="true"></i> Edit</button>
                                                     <button data-target="#delete" onclick="deleteConfirmPopup('{{ route("spliter.delete", $data->id) }}')" class="btn btn-danger btn-sm" data-toggle="modal"><i class="ti-trash" aria-hidden="true"></i> Delete</button>
@@ -125,8 +128,23 @@ select option[value="2"] {
                 </form>
             </div>
           </div>
-         <!-- add Modal -->
-     
+        <!-- Spliter Core Modal -->
+        <div class="modal fade" id="modalSpliterCore" role="dialog"  tabindex="-1" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog ">
+                <form action="{{route('spliter.extendCore')}}"  method="post">
+                    {{ csrf_field() }}
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Spliter Core List</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body" id="showSpliterCore"></div>
+                   
+                  </div>
+                </form>
+            </div>
+        </div>     
         <!-- delete Modal -->
         @include('admin.modal.delete-modal')
 
@@ -159,9 +177,47 @@ select option[value="2"] {
 
             });
         }
+        // get spliter core by spliter by id
+        function getAllCore(id){
+            $('#showSpliterCore').html('<div id="loading"></div>');
+            var  url = '{{route("spliter.showAllCore", ":id")}}';
+            url = url.replace(':id',id);
+            $.ajax({
+                url:url,
+                method:"get",
+                success:function(data){
+                    if(data){
+                        $("#showSpliterCore").html(data);
+                    }
+                },
+                // $ID Error display id name
+                @include('common.ajaxError', ['ID' => 'showSpliterCore'])
+
+            });
+        }   
+
+        //get spliter all list
+        function getSpliter(parent_id, id){
+            $('#showSpliterCore').html('<div id="loading"></div>');
+            var  url = '{{route("spliter.getAllSpliter", ":id")}}';
+            url = url.replace(':id',id);
+            $.ajax({
+                url:url,
+                method:"get",
+                data:{parent_id:parent_id},
+                success:function(data){
+                    if(data){
+                        $("#showSpliterCore").html(data);
+                    }
+                },
+                // $ID Error display id name
+                @include('common.ajaxError', ['ID' => 'showSpliterCore'])
+
+            });
+        }
 
     </script>
-
+    <!-- show core list by core  -->
     <script type="text/javascript">
         function ShowCore(id){
             var output='';
@@ -170,9 +226,7 @@ select option[value="2"] {
                 output += '<label for="example-color-input" class="col-3 col-md-3 text-right col-form-label">Core '+i+'</label><div class="col-8 col-md-2"><input name="core_no['+i+']" class="form-control" type="color" value="#563d7c" id="example-color-input"></div>';
             }
 
-            $('#spliterShowCoreadd').html(output);
-
-           
+            $('#spliterShowCoreadd').html(output);  
         }
     </script>
 

@@ -14,18 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => ['auth', 'admin']], function(){
+Route::group(['middleware' => ['auth']], function(){
 	Route::get('/', 'DashboardController@dashboard')->name('dashboard');
-	Route::get('dashboard', 'DashboardController@dashboard')->name('dashboard');
 
 	//Ticket routes
 	Route::get('ticket/create', 'TicketController@create')->name('ticket.create');
 	Route::post('ticket/store', 'TicketController@store')->name('ticket.store');
 	Route::get('ticket/list', 'TicketController@index')->name('ticket.list');
-	
+
 	Route::get('ticket/conversation/{slug?}', 'TicketConversationController@create')->name('ticket.conversation');
 	Route::post('ticket/conversation/store', 'TicketConversationController@store')->name('ticket.conversation.store');
-
 
 	// invoice routes
 	Route::get('invoice/create', 'InvoiceController@create')->name('invoice.create');
@@ -40,7 +38,7 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
 
 	// paymentmethod routes
 	Route::get('payment/dashboard', 'PaymentController@dashboard')->name('payment.dashboard');
-	
+
 
 
 	Route::get('payment/list', 'PaymentController@list')->name('payment.list');

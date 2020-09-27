@@ -9,6 +9,8 @@ class Spliter extends Model
     protected $guarded = [];
 
     public function cores(){
-        return $this->hasMany(Core::class, 'parent_id');
+        return $this->hasMany(Core::class, 'parent_id')->where('type', 'spliter');
     }
+
+
 }

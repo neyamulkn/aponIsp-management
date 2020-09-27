@@ -34,7 +34,7 @@ return [
     | Supported: "session", "token"
     |
     */
-
+ 
     'guards' => [
         'web' => [
             'driver' => 'session',
@@ -45,6 +45,46 @@ return [
             'driver' => 'token',
             'provider' => 'users',
             'hash' => false,
+        ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+
+        'admin-api' => [
+            'driver' => 'token',
+            'provider' => 'admins',
+        ],
+
+        'vendor' => [
+            'driver' => 'session',
+            'provider' => 'vendors',
+        ],
+
+        'vendor-api' => [
+            'driver' => 'token',
+            'provider' => 'vendors',
+        ],
+
+        'staff' => [
+            'driver' => 'session',
+            'provider' => 'staffs',
+        ],
+        
+        'staff-api' => [
+            'driver' => 'token',
+            'provider' => 'staffs',
+        ],
+        
+        'user' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+        
+        'user-api' => [
+            'driver' => 'token',
+            'provider' => 'users',
         ],
     ],
 
@@ -69,6 +109,21 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Admin::class,
+        ],
+
+        'vendors' => [
+            'driver' => 'eloquent',
+            'model' => App\Vendor::class,
+        ],
+
+        'staffs' => [
+            'driver' => 'eloquent',
+            'model' => App\Staff::class,
         ],
 
         // 'users' => [
